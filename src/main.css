@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root, #main-container, .test-scene-container {
+  height: 100%;
+}
+
+#main-container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  h1, h2 {
+    text-align: center;
+  }
+}
