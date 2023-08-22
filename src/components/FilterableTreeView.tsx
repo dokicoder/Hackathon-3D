@@ -53,8 +53,7 @@ const FilterableTreeView = ({
         onClick={() => {
           onItemSelected(node.name);
         }}
-        sx={{ borderBottom: "1px solid #ccc" }}
-        label={<div style={{ padding: "8px" }}>{node.name}</div>}
+        label={<div style={{ padding: "6px" }}>{node.name}</div>}
       >
         {node.children && node.children.length > 0 && renderTree(node.children)}
       </TreeItem>

@@ -4,6 +4,11 @@ import "./main.css";
 import { AppContainer } from "./AppContainer";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { setDefaultOptions } from "date-fns";
+import { de } from "date-fns/locale";
+
 const theme = createTheme({
   direction: "rtl",
   // other theme properties
@@ -14,7 +19,9 @@ const root = createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <AppContainer />
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={de}>
+        <AppContainer />
+      </LocalizationProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
