@@ -1,21 +1,27 @@
-import { useGLTF } from '@react-three/drei';
-import { createRef, useRef, useState } from 'react';
-import {
-  Group,
-  Material,
-  Mesh,
-  MeshStandardMaterial,
-  Skeleton,
-  Vector3,
-} from 'three';
-import { MeshProps } from '@react-three/fiber';
-import bodyUrl from '../assets/male_body_separated.glb?url';
-import { useWoundDocStore } from '../store';
+import { useGLTF } from "@react-three/drei";
+import { MeshProps } from "@react-three/fiber";
+import { createRef, useRef, useState } from "react";
+import { Group, Material, Mesh, MeshStandardMaterial, Vector3 } from "three";
+import bodyUrl from "../assets/male_body_separated.glb?url";
+import { useWoundDocStore } from "../store";
 
 interface ISphereProps extends MeshProps {
   opacity: number;
   color: string;
 }
+
+type Coordinates = {
+  x: number;
+  y: number;
+};
+
+const calculateDistance = (start: Coordinates, end: Coordinates): number => {
+  const deltaX = end.x - start.x;
+  const deltaY = end.y - start.y;
+
+  // Using the Euclidean distance formula: sqrt((x2 - x1)^2 + (y2 - y1)^2)
+  return Math.sqrt(deltaX ** 2 + deltaY ** 2);
+};
 
 const Sphere = ({ opacity, color, ...rest }: ISphereProps) => {
   return (
@@ -34,7 +40,10 @@ export const Body = () => {
   const { nodes, materials } = useGLTF(bodyUrl) as any;
   const ref = createRef<Group>();
 
+  const [clickRef, setClickRef] = useState<Coordinates | null>(null);
+
   /*
+
   const selectionMaterial: MeshBasicMaterial = (
     el as any
   ).nodes.foot_left.material.clone();
@@ -70,7 +79,19 @@ export const Body = () => {
           e.stopPropagation();
           setPreviewPosition(e.point);
         }}
+        onPointerDown={(e) => {
+          setClickRef({ x: e.clientX, y: e.clientY });
+        }}
         onPointerUp={(e) => {
+          const mouseDistance = calculateDistance(
+            { x: clickRef?.x ?? 0, y: clickRef?.y ?? 0 },
+            { x: e.clientX, y: e.clientY }
+          );
+
+          if (mouseDistance > 20) {
+            return;
+          }
+
           if (previewPosition && selectedWoundIdx === undefined) {
             console.log(e.object.userData.name);
 
@@ -95,7 +116,7 @@ export const Body = () => {
             (e.object as Mesh).material as MeshStandardMaterial
           ).clone();
 
-          coloredMaterial.setValues({ color: '#88bb88' });
+          coloredMaterial.setValues({ color: "#88bb88" });
 
           (e.object as Mesh).material = coloredMaterial;
         }}
@@ -108,6 +129,7 @@ export const Body = () => {
 
             (e.object as Mesh).material = hoverMaterialRef.current;
           }
+          setClickRef(null);
         }}
       >
         <group dispose={null}>
@@ -162,12 +184,12 @@ export const Body = () => {
         </group>
       </mesh>
       {previewPosition && showPreview && (
-        <Sphere position={previewPosition} color={'#ffaaaa'} opacity={0.5} />
+        <Sphere position={previewPosition} color={"#ffaaaa"} opacity={0.5} />
       )}
       {wounds.map(({ position }, idx) => (
         <Sphere
           position={position}
-          color={idx === selectedWoundIdx ? '#1166ff' : '#ff6644'}
+          color={idx === selectedWoundIdx ? "#1166ff" : "#ff6644"}
           opacity={0.8}
           key={idx}
           onPointerMove={(e) => {

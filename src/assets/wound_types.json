@@ -1,12 +1,7 @@
 [
     {
       "id": "1",
-      "name": "Neue Wunde (ORD)",
-      "children": []
-    },
-    {
-      "id": "2",
-      "name": "Wundtyp (wegen epa-AC nicht zum parametrieren freigeben)",
+      "name": "OP Wunde",
       "children": []
     },
     {
