@@ -2,15 +2,11 @@ import {
   Environment,
   OrbitControls,
   PerspectiveCamera,
-  useGLTF,
 } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import React from 'react';
 import * as THREE from 'three';
 import { Body } from './Body';
-
-// start loading mesh immediately
-useGLTF.preload('/apple.gltf');
 
 export const TestScene: React.FC = () => {
   const canvasRef = React.createRef<HTMLCanvasElement>();

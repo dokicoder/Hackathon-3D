@@ -1,7 +1,7 @@
 import { useGLTF } from '@react-three/drei';
-import bodyUrl from '../assets/male_body.glb?url';
+import bodyUrl from '../assets/male_body_separated.glb?url';
 import { createRef, useState } from 'react';
-import { Group, Vector3 } from 'three';
+import { Group, MeshBasicMaterial, Vector3 } from 'three';
 import { MeshProps } from '@react-three/fiber';
 
 interface ISphereProps extends MeshProps {
@@ -28,6 +28,19 @@ useGLTF.preload(bodyUrl);
 export const Body = () => {
   const el = useGLTF(bodyUrl);
   const ref = createRef<Group>();
+
+  console.log('Body', el);
+
+  const selectionMaterial: MeshBasicMaterial = (
+    el as any
+  ).nodes.foot_left.material.clone();
+
+  selectionMaterial.setValues({ color: '#ff6644' });
+
+  (el as any).nodes.foot_left.material = selectionMaterial;
+  (el as any).nodes.foot_right.material = selectionMaterial;
+  (el as any).nodes.hand_left.material = selectionMaterial;
+  (el as any).nodes.hand_right.material = selectionMaterial;
 
   const [previewPosition, setPreviewPosition] = useState<Vector3 | undefined>(
     new Vector3(0, 0, 0)
@@ -62,7 +75,7 @@ export const Body = () => {
           }
         }}
       >
-        <primitive object={el.scene} />;
+        <primitive object={el.scene} />
       </mesh>
       {previewPosition && (
         <Sphere position={previewPosition} color={'#ffaaaa'} opacity={0.5} />
