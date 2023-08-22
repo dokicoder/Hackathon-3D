@@ -1,8 +1,9 @@
 import { useGLTF } from '@react-three/drei';
-import bodyUrl from '../assets/male_body.glb?url';
 import { createRef, useState } from 'react';
 import { Group, Vector3 } from 'three';
 import { MeshProps } from '@react-three/fiber';
+import bodyUrl from '../assets/male_body.glb?url';
+
 
 interface ISphereProps extends MeshProps {
   opacity: number;
@@ -32,39 +33,34 @@ export const Body = () => {
   const [previewPosition, setPreviewPosition] = useState<Vector3 | undefined>(
     new Vector3(0, 0, 0)
   );
-
+  const [showPreview, setShowPreview] = useState(true);
   const [woundStates, setWoundStates] = useState<IWoundState[]>([]);
 
   return (
     <group ref={ref}>
+      {/* BODY */}
       <mesh
         receiveShadow
         castShadow
         onPointerOut={(e) => {
-          console.log('exit', e);
-
           setPreviewPosition(undefined);
         }}
         onPointerMove={(e) => {
           e.stopPropagation();
-          console.log('move', e);
-
           setPreviewPosition(e.point);
         }}
         onPointerDown={(e) => {
-          if (previewPosition) {
+          if (previewPosition && woundStates.find(el => el.toggled) === undefined) {
             setWoundStates([
               ...woundStates,
               { position: previewPosition, toggled: true },
             ]);
-          } else {
-            // TODO
           }
         }}
       >
         <primitive object={el.scene} />;
       </mesh>
-      {previewPosition && (
+      {previewPosition && showPreview && (
         <Sphere position={previewPosition} color={'#ffaaaa'} opacity={0.5} />
       )}
       {woundStates.map(({ position, toggled }, idx) => (
@@ -72,27 +68,22 @@ export const Body = () => {
           position={position}
           color={toggled ? '#1166ff' : '#ff6644'}
           opacity={0.8}
+          key={idx}
           onPointerMove={(e) => {
             e.stopPropagation();
-            console.log('move', e);
-
             const newStates = [...woundStates];
-            newStates[idx].toggled = true; // !newStates[idx].toggled;
-
+            newStates[idx].toggled = true;
             setWoundStates(newStates);
-
             setPreviewPosition(e.point);
+            setShowPreview(false);
           }}
           onPointerOut={(e) => {
             e.stopPropagation();
-            console.log('move', e);
-
             const newStates = [...woundStates];
-            newStates[idx].toggled = false; // !newStates[idx].toggled;
-
+            newStates[idx].toggled = false;
             setWoundStates(newStates);
-
             setPreviewPosition(e.point);
+            setShowPreview(true)
           }}
         />
       ))}
