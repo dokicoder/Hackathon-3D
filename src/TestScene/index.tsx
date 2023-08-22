@@ -38,7 +38,7 @@ const cameraRef = React.createRef<THREE.PerspectiveCamera>();
             enableDamping={true}
             dampingFactor={0.25}
             enablePan={false}
-            minDistance={7}
+            minDistance={3}
             maxDistance={100}
             rotateSpeed={0.3}
           />

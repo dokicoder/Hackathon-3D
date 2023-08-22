@@ -4,18 +4,28 @@ import { createRef } from "react";
 import { Group } from "three";
 import bodyUrl from "../assets/male_body.glb?url";
 
+
+useGLTF.preload(bodyUrl)
+
 export const Body = () => {
   const el = useGLTF(bodyUrl);
   const ref = createRef<Group>();
 
+
+
+
+  /*
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (!ref.current) return;
-    //ref.current?.rotation.set(0, t / 2, 0);
+    ref.current?.rotation.set(0, t / 2, 0);
   });
+
+  */
+ 
   return (
     <group ref={ref}>
-      <mesh receiveShadow castShadow>
+      <mesh receiveShadow castShadow position={[0,1,0]}>
         <primitive object={el.scene} />;
       </mesh>
     </group>
