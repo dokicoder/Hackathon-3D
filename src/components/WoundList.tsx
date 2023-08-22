@@ -1,7 +1,7 @@
-import { Button, Card, CardContent } from "@mui/material";
-import { Wound } from "../AppContainer";
+import { Card, CardContent } from '@mui/material';
+import { Wound } from '../AppContainer';
 
-export const WondList = ({
+export const WoundList = ({
   woundList,
   onSelectWound,
 }: {
@@ -11,7 +11,7 @@ export const WondList = ({
   return (
     <Card
       style={{
-        position: "absolute",
+        position: 'absolute',
         zIndex: 1000,
         bottom: 200,
         left: 0,

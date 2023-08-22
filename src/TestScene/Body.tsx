@@ -92,6 +92,8 @@ export const Body = () => {
           setClickRef({ x: e.clientX, y: e.clientY });
         }}
         onPointerUp={(e) => {
+          e.stopPropagation();
+
           const mouseDistance = calculateDistance(
             { x: clickRef?.x ?? 0, y: clickRef?.y ?? 0 },
             { x: e.clientX, y: e.clientY }
@@ -102,11 +104,14 @@ export const Body = () => {
           }
 
           if (previewPosition && hoveredWoundIdx === undefined) {
+            console.log(e.object.userData.name);
+
+            console.log('addWound');
             addWound({
               position: previewPosition,
-              bodyPart: e.object.userData.name,
+              bodyPart: e.object.userData.name || 'body',
             });
-            selectWound(wounds.length);
+            //selectWound(wounds.length);
           }
         }}
         onPointerEnter={(e) => {
@@ -145,48 +150,56 @@ export const Body = () => {
             receiveShadow
             geometry={nodes.Body_low_Body_low_0.geometry}
             material={materials.Body_low}
+            userData={{ name: 'body' }}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.face_front.geometry}
             material={materials.Body_low}
+            userData={{ name: 'face_front' }}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.foot_left.geometry}
             material={materials.Body_low}
+            userData={{ name: 'foot_left' }}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.foot_right.geometry}
             material={materials.Body_low}
+            userData={{ name: 'foot_right' }}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.hand_left.geometry}
             material={materials.Body_low}
+            userData={{ name: 'hand_left' }}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.hand_right.geometry}
             material={materials.Body_low}
+            userData={{ name: 'hand_right' }}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.EyeGlass_low_EyeGlass_low_0.geometry}
             material={materials.EyeGlass_low}
+            userData={{ name: 'body' }}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.Male_Basic_Male_Basic_0.geometry}
             material={materials.Male_Basic}
+            userData={{ name: 'body' }}
           />
         </group>
       </mesh>

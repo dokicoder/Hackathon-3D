@@ -1,7 +1,8 @@
 import { TestScene } from './TestScene';
 import { SideBar } from './components/Sidebar';
 import { useState } from 'react';
-import { WondList } from './components/WoundList';
+import { useWoundDocStore } from './store';
+import { WoundList } from './components/WoundList';
 
 export type Wound = {
   woundType: string;
@@ -20,25 +21,14 @@ export const AppContainer = (): JSX.Element => {
     },
   ]);
 
-  const [selectedWound, setSelectedWound] = useState<Wound | null>(null);
-
-  const addWound = (wound: Wound) => {
-    setWound((prev) => [...prev, wound]);
-    setSelectedWound(null);
-  };
+  const { selectedWound, selectWound } = useWoundDocStore();
 
   return (
     <div id="main-container">
-      <WondList woundList={wounds} onSelectWound={setSelectedWound} />
+      <WoundList woundList={wounds} onSelectWound={selectWound as any} />
       <TestScene />
 
-      {selectedWound && (
-        <SideBar
-          key={selectedWound.woundType}
-          wound={selectedWound}
-          saveWound={addWound}
-        />
-      )}
+      {selectedWound && <SideBar key={selectedWound.woundType} />}
     </div>
   );
 };
