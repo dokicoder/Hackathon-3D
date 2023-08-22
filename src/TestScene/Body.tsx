@@ -1,9 +1,9 @@
-import { useGLTF } from "@react-three/drei";
-import { MeshProps } from "@react-three/fiber";
-import { createRef, useRef, useState } from "react";
-import { Group, Material, Mesh, MeshStandardMaterial, Vector3 } from "three";
-import bodyUrl from "../assets/male_body_separated.glb?url";
-import { useWoundDocStore } from "../store";
+import { useGLTF } from '@react-three/drei';
+import { createRef, useRef, useState } from 'react';
+import { Group, Material, Mesh, MeshStandardMaterial, Vector3 } from 'three';
+import { MeshProps } from '@react-three/fiber';
+import bodyUrl from '../assets/male_body_separated.glb?url';
+import { useWoundDocStore } from '../store';
 
 interface ISphereProps extends MeshProps {
   opacity: number;
@@ -23,6 +23,10 @@ const calculateDistance = (start: Coordinates, end: Coordinates): number => {
   return Math.sqrt(deltaX ** 2 + deltaY ** 2);
 };
 
+const selectedWoundColor = '#1166ff';
+const hoveredWoundColor = '#66ff44';
+const defaultWoundColor = '#ff6644';
+
 const Sphere = ({ opacity, color, ...rest }: ISphereProps) => {
   return (
     <mesh {...rest}>
@@ -35,14 +39,13 @@ const Sphere = ({ opacity, color, ...rest }: ISphereProps) => {
 useGLTF.preload(bodyUrl);
 
 export const Body = () => {
-  const el = useGLTF(bodyUrl);
-
   const { nodes, materials } = useGLTF(bodyUrl) as any;
   const ref = createRef<Group>();
 
   const [clickRef, setClickRef] = useState<Coordinates | null>(null);
 
   /*
+  const el = useGLTF(bodyUrl);
 
   const selectionMaterial: MeshBasicMaterial = (
     el as any
@@ -63,8 +66,14 @@ export const Body = () => {
 
   const hoverMaterialRef = useRef<MeshStandardMaterial>();
 
-  const { wounds, selectedWoundIdx, addWound, selectWound } =
-    useWoundDocStore();
+  const {
+    wounds,
+    selectedWoundIdx,
+    hoveredWoundIdx,
+    addWound,
+    setWoundHovered,
+    selectWound,
+  } = useWoundDocStore();
 
   return (
     <group ref={ref}>
@@ -92,9 +101,7 @@ export const Body = () => {
             return;
           }
 
-          if (previewPosition && selectedWoundIdx === undefined) {
-            console.log(e.object.userData.name);
-
+          if (previewPosition && hoveredWoundIdx === undefined) {
             addWound({
               position: previewPosition,
               bodyPart: e.object.userData.name,
@@ -116,7 +123,7 @@ export const Body = () => {
             (e.object as Mesh).material as MeshStandardMaterial
           ).clone();
 
-          coloredMaterial.setValues({ color: "#88bb88" });
+          coloredMaterial.setValues({ color: '#88bb88' });
 
           (e.object as Mesh).material = coloredMaterial;
         }}
@@ -184,25 +191,34 @@ export const Body = () => {
         </group>
       </mesh>
       {previewPosition && showPreview && (
-        <Sphere position={previewPosition} color={"#ffaaaa"} opacity={0.5} />
+        <Sphere position={previewPosition} color={'#ffaaaa'} opacity={0.5} />
       )}
       {wounds.map(({ position }, idx) => (
         <Sphere
           position={position}
-          color={idx === selectedWoundIdx ? "#1166ff" : "#ff6644"}
+          color={
+            idx === selectedWoundIdx
+              ? selectedWoundColor
+              : idx === hoveredWoundIdx
+              ? hoveredWoundColor
+              : defaultWoundColor
+          }
           opacity={0.8}
           key={idx}
           onPointerMove={(e) => {
             e.stopPropagation();
-            selectWound(idx);
+            setWoundHovered(idx);
             setPreviewPosition(e.point);
             setShowPreview(false);
           }}
           onPointerOut={(e) => {
             e.stopPropagation();
-            selectWound(undefined);
+            setWoundHovered(undefined);
             setPreviewPosition(e.point);
             setShowPreview(true);
+          }}
+          onPointerUp={(e) => {
+            selectWound(idx);
           }}
         />
       ))}

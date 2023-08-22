@@ -10,6 +10,7 @@ export interface IWoundState {
 interface IApplicationState {
   wounds: IWoundState[];
   selectedWoundIdx: number | undefined;
+  hoveredWoundIdx: number | undefined;
 }
 
 interface IApplicationInterface {
@@ -17,6 +18,7 @@ interface IApplicationInterface {
   updateWound: (wound: IWoundState, idx: number) => void;
   removeWound: (idx: number) => void;
   selectWound: (idx: number | undefined) => void;
+  setWoundHovered: (idx: number | undefined) => void;
 }
 
 export const useWoundDocStore = create<
@@ -24,6 +26,7 @@ export const useWoundDocStore = create<
 >((set) => ({
   wounds: [],
   selectedWoundIdx: undefined,
+  hoveredWoundIdx: undefined,
   addWound: (wound) => set(({ wounds }) => ({ wounds: [...wounds, wound] })),
   updateWound: (newWound: IWoundState, udatedIdx: number) =>
     set(({ wounds }) => ({
@@ -36,7 +39,11 @@ export const useWoundDocStore = create<
       wounds: wounds.filter((_, idx) => idx !== deleteIdx),
     })),
   selectWound: (selectIdx) =>
+    set(({ selectedWoundIdx }) => ({
+      selectedWoundIdx: selectedWoundIdx === selectIdx ? undefined : selectIdx,
+    })),
+  setWoundHovered: (hoveredIdx) =>
     set(() => ({
-      selectedWoundIdx: selectIdx,
+      hoveredWoundIdx: hoveredIdx,
     })),
 }));
