@@ -79,18 +79,12 @@ export const Body = () => {
           setClickRef({ x: e.clientX, y: e.clientY });
         }}
         onPointerUp={(e) => {
-          console.log(
-            "CD",
-            calculateDistance(
-              { x: clickRef?.x ?? 0, y: clickRef?.y ?? 0 },
-              { x: e.clientX, y: e.clientY }
-            )
+          const mouseDistance = calculateDistance(
+            { x: clickRef?.x ?? 0, y: clickRef?.y ?? 0 },
+            { x: e.clientX, y: e.clientY }
           );
           if (
-            calculateDistance(
-              { x: clickRef?.x ?? 0, y: clickRef?.y ?? 0 },
-              { x: e.clientX, y: e.clientY }
-            ) < 20 &&
+            mouseDistance < 20 &&
             previewPosition &&
             woundStates.find((el) => el.toggled) === undefined
           ) {
