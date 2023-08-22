@@ -2,7 +2,6 @@ import { TestScene } from './TestScene';
 import { SideBar } from './components/Sidebar';
 import { useState } from 'react';
 import { WondList } from './components/WoundList';
-import { Slide } from '@mui/material';
 
 export type Wound = {
   woundType: string;

@@ -120,6 +120,12 @@ export const Body = () => {
           <mesh
             castShadow
             receiveShadow
+            geometry={nodes.face_front.geometry}
+            material={materials.Body_low}
+          />
+          <mesh
+            castShadow
+            receiveShadow
             geometry={nodes.foot_left.geometry}
             material={materials.Body_low}
           />
