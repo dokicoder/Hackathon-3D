@@ -14,11 +14,18 @@ interface IWoundState {
   toggled: boolean;
 }
 
-const calcDistance = (mouseDownX: number, mouseDownY: number, mouseUpX: number, mouseUpY: number) => {
-  console.log("Calc", mouseDownX, mouseUpX, mouseDownY, mouseUpY);
-  return Math.sqrt(Math.pow((mouseDownX - mouseUpX), 2) + Math.pow((mouseDownY - mouseUpY), 2))
-}
+type Coordinates = {
+  x: number;
+  y: number;
+};
 
+const calculateDistance = (start: Coordinates, end: Coordinates): number => {
+  const deltaX = end.x - start.x;
+  const deltaY = end.y - start.y;
+
+  // Using the Euclidean distance formula: sqrt((x2 - x1)^2 + (y2 - y1)^2)
+  return Math.sqrt(deltaX ** 2 + deltaY ** 2);
+};
 
 const Sphere = ({ opacity, color, ...rest }: ISphereProps) => {
   return (
@@ -36,9 +43,7 @@ export const Body = () => {
 
   const { nodes, materials } = useGLTF(bodyUrl) as any;
   const ref = createRef<Group>();
-  const [clickRef, setClickRef] = useState<[number, number]>([NaN, NaN]);
-
-
+  const [clickRef, setClickRef] = useState<Coordinates | null>(null);
 
   const selectionMaterial: MeshBasicMaterial = (
     el as any
@@ -71,14 +76,21 @@ export const Body = () => {
           setPreviewPosition(e.point);
         }}
         onPointerDown={(e) => {
-          console.log('E', e.clientX)
-          setClickRef([e.clientX, e.clientY]);
-
+          setClickRef({ x: e.clientX, y: e.clientY });
         }}
         onPointerUp={(e) => {
-          console.log('CD', calcDistance(clickRef[0], e.clientX, clickRef[1], e.clientY))
+          console.log(
+            "CD",
+            calculateDistance(
+              { x: clickRef?.x ?? 0, y: clickRef?.y ?? 0 },
+              { x: e.clientX, y: e.clientY }
+            )
+          );
           if (
-            calcDistance(clickRef[0], e.clientX, clickRef[1], e.clientY) &&
+            calculateDistance(
+              { x: clickRef?.x ?? 0, y: clickRef?.y ?? 0 },
+              { x: e.clientX, y: e.clientY }
+            ) < 20 &&
             previewPosition &&
             woundStates.find((el) => el.toggled) === undefined
           ) {
@@ -87,6 +99,7 @@ export const Body = () => {
               { position: previewPosition, toggled: true },
             ]);
           }
+          setClickRef(null);
         }}
       >
         <group dispose={null}>
