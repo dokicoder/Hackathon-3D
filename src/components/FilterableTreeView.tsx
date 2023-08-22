@@ -43,7 +43,12 @@ const FilterableTreeView: React.FC = () => {
 
   const renderTree = (nodes: TreeNode[]): React.ReactNode => {
     return nodes.map((node) => (
-      <TreeItem key={node.id} nodeId={node.id} label={node.name}>
+      <TreeItem
+        key={node.id}
+        nodeId={node.id}
+        sx={{ borderBottom: "1px solid #ccc" }}
+        label={<div style={{ padding: "8px" }}>{node.name}</div>}
+      >
         {node.children && node.children.length > 0 && renderTree(node.children)}
       </TreeItem>
     ));
@@ -52,13 +57,15 @@ const FilterableTreeView: React.FC = () => {
   return (
     <div>
       <TextField
-        label="Filter"
+        label="Wundtyp suchen"
         variant="outlined"
         fullWidth
         value={filterText}
+        sx={{ marginBottom: "16px" }}
         onChange={handleFilterChange}
       />
       <TreeView
+        sx={{ height: "300px", overflowY: "scroll", overflowX: "hidden" }}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
       >

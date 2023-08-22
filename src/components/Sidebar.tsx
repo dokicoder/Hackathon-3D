@@ -4,7 +4,7 @@ import FilterableTreeView from "./FilterableTreeView";
 
 export const SideBar = (): JSX.Element => {
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{ width: 400 }}>
       <CardContent>
         <h1>Wunde hinzufügen</h1>
         <FilterableTreeView />
