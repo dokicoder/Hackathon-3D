@@ -8,9 +8,11 @@ import { Canvas } from '@react-three/fiber';
 import React from 'react';
 import * as THREE from 'three';
 import { Body } from './Body';
+import bodyUrl from '../assets/male_body.glb?url';
+
 
 // start loading mesh immediately
-useGLTF.preload('/apple.gltf');
+// useGLTF.preload('/apple.gltf');
 
 export const TestScene: React.FC = () => {
   const canvasRef = React.createRef<HTMLCanvasElement>();
@@ -33,7 +35,7 @@ export const TestScene: React.FC = () => {
             ref={cameraRef}
             matrixWorldAutoUpdate={undefined}
             getObjectsByProperty={undefined}
-          ></PerspectiveCamera>
+          />
 
           <Body></Body>
           <OrbitControls
