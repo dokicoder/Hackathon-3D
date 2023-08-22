@@ -8,6 +8,12 @@ import React from 'react';
 import * as THREE from 'three';
 import { Body } from './Body';
 
+import { suspend } from 'suspend-react';
+
+const studio = import('@pmndrs/assets/hdri/studio.exr' as any).then(
+  (module) => module.default
+);
+
 export const TestScene: React.FC = () => {
   const canvasRef = React.createRef<HTMLCanvasElement>();
   const cameraRef = React.createRef<THREE.PerspectiveCamera>();
@@ -22,7 +28,7 @@ export const TestScene: React.FC = () => {
         }
       >
         <Canvas ref={canvasRef}>
-          <Environment preset="studio" />
+          <Environment files={suspend(studio) as any} />
           <PerspectiveCamera
             position={[0, 1.2, 7]}
             fov={60}
