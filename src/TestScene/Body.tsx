@@ -1,33 +1,51 @@
 import { useGLTF } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
-import { createRef } from "react";
-import { Group } from "three";
-import bodyUrl from "../assets/male_body.glb?url";
+import bodyUrl from '../assets/male_body.glb?url';
+import { createRef, useState } from 'react';
+import { Group, Vector3 } from 'three';
 
+interface ISphereProps {
+  position: Vector3;
+}
 
-useGLTF.preload(bodyUrl)
+const Sphere = ({ position }: ISphereProps) => {
+  return (
+    <mesh position={position}>
+      <sphereGeometry args={[0.4, 24, 24]} />
+      <meshStandardMaterial color={'blue'} />
+    </mesh>
+  );
+};
+
+useGLTF.preload(bodyUrl);
 
 export const Body = () => {
   const el = useGLTF(bodyUrl);
   const ref = createRef<Group>();
 
+  const [position, setPosition] = useState<Vector3>(new Vector3(0, 0, 0));
 
-
-
-  /*
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (!ref.current) return;
-    ref.current?.rotation.set(0, t / 2, 0);
-  });
-
-  */
- 
   return (
     <group ref={ref}>
-      <mesh receiveShadow castShadow position={[0,1,0]}>
+      <mesh
+        receiveShadow
+        castShadow
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          console.log('enter', e);
+        }}
+        onPointerOut={(e) => {
+          console.log('exit', e);
+        }}
+        onPointerMove={(e) => {
+          e.stopPropagation();
+          console.log('move', e);
+
+          setPosition(e.point);
+        }}
+      >
         <primitive object={el.scene} />;
       </mesh>
+      <Sphere position={position} />
     </group>
   );
 };
