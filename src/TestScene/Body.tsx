@@ -1,7 +1,7 @@
 import { useGLTF } from "@react-three/drei";
 import { createRef, useState } from "react";
 import { Group, MeshBasicMaterial, Vector3 } from "three";
-import { MeshProps } from "@react-three/fiber";
+import { MeshProps, ThreeEvent } from "@react-three/fiber";
 import bodyUrl from "../assets/male_body_separated.glb?url";
 
 interface ISphereProps extends MeshProps {
@@ -13,6 +13,12 @@ interface IWoundState {
   position: Vector3;
   toggled: boolean;
 }
+
+const calcDistance = (mouseDownX: number, mouseDownY: number, mouseUpX: number, mouseUpY: number) => {
+  console.log("Calc", mouseDownX, mouseUpX, mouseDownY, mouseUpY);
+  return Math.sqrt(Math.pow((mouseDownX - mouseUpX), 2) + Math.pow((mouseDownY - mouseUpY), 2))
+}
+
 
 const Sphere = ({ opacity, color, ...rest }: ISphereProps) => {
   return (
@@ -30,8 +36,9 @@ export const Body = () => {
 
   const { nodes, materials } = useGLTF(bodyUrl) as any;
   const ref = createRef<Group>();
+  const [clickRef, setClickRef] = useState<[number, number]>([NaN, NaN]);
 
-  console.log("Body", el);
+
 
   const selectionMaterial: MeshBasicMaterial = (
     el as any
@@ -64,7 +71,14 @@ export const Body = () => {
           setPreviewPosition(e.point);
         }}
         onPointerDown={(e) => {
+          console.log('E', e.clientX)
+          setClickRef([e.clientX, e.clientY]);
+
+        }}
+        onPointerUp={(e) => {
+          console.log('CD', calcDistance(clickRef[0], e.clientX, clickRef[1], e.clientY))
           if (
+            calcDistance(clickRef[0], e.clientX, clickRef[1], e.clientY) &&
             previewPosition &&
             woundStates.find((el) => el.toggled) === undefined
           ) {
