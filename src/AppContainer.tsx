@@ -1,8 +1,8 @@
-import { TestScene } from "./TestScene";
-import { SideBar } from "./components/Sidebar";
-import { useState } from "react";
-import { WondList } from "./components/WoundList";
-import { Slide } from "@mui/material";
+import { TestScene } from './TestScene';
+import { SideBar } from './components/Sidebar';
+import { useState } from 'react';
+import { WondList } from './components/WoundList';
+import { Slide } from '@mui/material';
 
 export type Wound = {
   woundType: string;
@@ -13,11 +13,11 @@ export const AppContainer = (): JSX.Element => {
   const [wounds, setWound] = useState<Wound[]>([
     {
       createDate: new Date(),
-      woundType: "Schürfwunde",
+      woundType: 'Schürfwunde',
     },
     {
       createDate: new Date(),
-      woundType: "Dekubitus",
+      woundType: 'Dekubitus',
     },
   ]);
 
