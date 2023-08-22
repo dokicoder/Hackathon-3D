@@ -14,7 +14,11 @@ interface TreeNode {
 
 const data: TreeNode[] = JSON.parse(wondTypes);
 
-const FilterableTreeView: React.FC = () => {
+const FilterableTreeView = ({
+  onItemSelected,
+}: {
+  onItemSelected: (item: string) => void;
+}): JSX.Element => {
   const [filterText, setFilterText] = useState<string>("");
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +50,9 @@ const FilterableTreeView: React.FC = () => {
       <TreeItem
         key={node.id}
         nodeId={node.id}
+        onClick={() => {
+          onItemSelected(node.name);
+        }}
         sx={{ borderBottom: "1px solid #ccc" }}
         label={<div style={{ padding: "8px" }}>{node.name}</div>}
       >
