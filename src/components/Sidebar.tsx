@@ -1,10 +1,10 @@
-import CardContent from "@mui/material/CardContent";
-import Card from "@mui/material/Card";
-import FilterableTreeView from "./FilterableTreeView";
-import { useState } from "react";
-import { Typography } from "@mui/material";
-import Button from "@mui/material/Button";
-import { Wound } from "../AppContainer";
+import CardContent from '@mui/material/CardContent';
+import Card from '@mui/material/Card';
+import FilterableTreeView from './FilterableTreeView';
+import { useState } from 'react';
+import { Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import { Wound } from '../AppContainer';
 
 export const SideBar = ({
   wound,
