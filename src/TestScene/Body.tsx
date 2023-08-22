@@ -1,8 +1,8 @@
-import { OrbitControls, useGLTF } from '@react-three/drei';
-import bodyUrl from "../assets/male_body.glb?url";
+import { useGLTF } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
 import { createRef } from "react";
 import { Group } from "three";
-import { useFrame } from '@react-three/fiber';
+import bodyUrl from "../assets/male_body.glb?url";
 
 export const Body = () => {
   const el = useGLTF(bodyUrl);
