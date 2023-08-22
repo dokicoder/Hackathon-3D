@@ -5,6 +5,7 @@ import { TextField } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import wondTypes from "../assets/wound_types.json?raw";
+import { node } from "prop-types";
 
 interface TreeNode {
   id: string;
@@ -45,13 +46,17 @@ const FilterableTreeView = ({
 
   const filteredData = filterNodes(data, filterText);
 
+  const expanded = filterText != "" ? filteredData.map((node) => node.id) : [];
+
   const renderTree = (nodes: TreeNode[]): React.ReactNode => {
     return nodes.map((node) => (
       <TreeItem
         key={node.id}
         nodeId={node.id}
         onClick={() => {
-          onItemSelected(node.name);
+          if (node.children?.length === 0) {
+            onItemSelected(node.name);
+          }
         }}
         label={<div style={{ padding: "6px" }}>{node.name}</div>}
       >
@@ -74,6 +79,7 @@ const FilterableTreeView = ({
         sx={{ height: "300px", overflowY: "scroll", overflowX: "hidden" }}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
+        expanded={expanded}
       >
         {renderTree(filteredData)}
       </TreeView>
