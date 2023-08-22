@@ -1,21 +1,28 @@
-import { Card, CardContent } from "@mui/material";
+import { Button, Card, CardContent } from "@mui/material";
 import { Wound } from "../AppContainer";
 
-export const WondList = ({ woundList }: { woundList: Wound[] }) => {
+export const WondList = ({
+  woundList,
+  onSelectWound,
+}: {
+  woundList: Wound[];
+  onSelectWound: (wound: Wound) => void;
+}) => {
   return (
     <Card
       style={{
         position: "absolute",
+        zIndex: 1000,
         bottom: 200,
         left: 0,
       }}
     >
       <CardContent>
-        <ul>
-          {woundList.map((wound) => (
-            <li>{wound.woundType}</li>
-          ))}
-        </ul>
+        {woundList.map((wound) => (
+          <div key={wound.woundType} onClick={() => onSelectWound(wound)}>
+            {wound.woundType}
+          </div>
+        ))}
       </CardContent>
     </Card>
   );

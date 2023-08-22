@@ -6,8 +6,23 @@ import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Wound } from "../AppContainer";
 
-export const SideBar = ({ wound }: { wound: Wound }): JSX.Element => {
-  const [selectedWoundType, setSelectedWoundType] = useState<string>("");
+export const SideBar = ({
+  wound,
+  saveWound,
+}: {
+  wound: Wound;
+  saveWound: (wound: Wound) => void;
+}): JSX.Element => {
+  const [selectedWoundType, setSelectedWoundType] = useState<string>(
+    wound.woundType
+  );
+
+  const onSaveHandler = (): void => {
+    saveWound({
+      woundType: selectedWoundType,
+      createDate: new Date(),
+    });
+  };
 
   return (
     <Card sx={{ width: 400 }}>
@@ -17,7 +32,7 @@ export const SideBar = ({ wound }: { wound: Wound }): JSX.Element => {
         </Typography>
         <FilterableTreeView onItemSelected={setSelectedWoundType} />
         <p>Selected wound type: {selectedWoundType}</p>
-        <Button>Speichern</Button>
+        <Button onClick={() => onSaveHandler()}>Speichern</Button>
       </CardContent>
     </Card>
   );
