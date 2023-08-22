@@ -17,7 +17,6 @@ export const Body = () => {
     <group ref={ref}>
       <mesh receiveShadow castShadow>
         <primitive object={el.scene} />;
-        <OrbitControls />
       </mesh>
     </group>
   );
