@@ -1,14 +1,20 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { TestScene } from "./TestScene";
 import "./main.css";
+import { AppContainer } from "./AppContainer";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  direction: "rtl",
+  // other theme properties
+});
 
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
   <React.StrictMode>
-    <div id="main-container">
-      <TestScene />
-    </div>
+    <ThemeProvider theme={theme}>
+      <AppContainer />
+    </ThemeProvider>
   </React.StrictMode>
 );

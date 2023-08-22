@@ -1,0 +1,232 @@
+[
+    {
+      "id": "1",
+      "name": "Neue Wunde (ORD)",
+      "children": []
+    },
+    {
+      "id": "2",
+      "name": "Wundtyp (wegen epa-AC nicht zum parametrieren freigeben)",
+      "children": []
+    },
+    {
+      "id": "3",
+      "name": "Spalthautentnahmestelle",
+      "children": []
+    },
+    {
+      "id": "4",
+      "name": "Fixateur externe",
+      "children": []
+    },
+    {
+      "id": "5",
+      "name": "Ulcus cruris",
+      "children": [
+        {
+          "id": "6",
+          "name": "Ulcus cruris / Venös"
+        },
+        {
+          "id": "7",
+          "name": "Ulcus cruris / Arteriell"
+        },
+        {
+          "id": "8",
+          "name": "Ulcus cruris / Gemischt"
+        },
+        {
+          "id": "9",
+          "name": "Ulcus cruris / Andere (unter Bemerkungen zu spezifizieren)"
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "name": "Dekubitus",
+      "children": [
+        {
+          "id": "11",
+          "name": "Dekubitus / Kategorie 1 (ICD-10-GM: L89.0)"
+        },
+        {
+          "id": "12",
+          "name": "Dekubitus / Kategorie 2 (ICD-10-GM: L89.1)"
+        },
+        {
+          "id": "13",
+          "name": "Dekubitus / Kategorie 3 (ICD-10-GM: L89.2)"
+        },
+        {
+          "id": "14",
+          "name": "Dekubitus / Kategorie 4 (ICD-10-GM: L89.3)"
+        },
+        {
+          "id": "15",
+          "name": "Dekubitus unkategorisierbar: Tiefe unklar"
+        },
+        {
+          "id": "16",
+          "name": "Dekubitus angenommene tiefe Hautschädigung: Tiefe unklar"
+        },
+        {
+          "id": "17",
+          "name": "Dekubitus abgeheilt"
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "name": "Diabetischer Fuss",
+      "children": []
+    },
+    {
+      "id": "19",
+      "name": "Abszess",
+      "children": []
+    },
+    {
+      "id": "20",
+      "name": "Wundheilungsstörung postoperativ",
+      "children": [
+        {
+          "id": "21",
+          "name": "Wundheilungsstörung postoperativ / Wunde gespreizt"
+        },
+        {
+          "id": "22",
+          "name": "Wundheilungsstörung postoperativ / Wundnaht lose adaptiert"
+        },
+        {
+          "id": "23",
+          "name": "Wundheilungsstörung postoperativ / Wundrand offen"
+        },
+        {
+          "id": "24",
+          "name": "Wundheilungsstörung postoperativ / Infektion"
+        },
+        {
+          "id": "25",
+          "name": "Wundheilungsstörung postoperativ / Anderes (unter Bemerkungen zu spezifizieren)"
+        }
+      ]
+    },
+    {
+      "id": "26",
+      "name": "Amputationswunde",
+      "children": []
+    },
+    {
+      "id": "27",
+      "name": "Thermische Verletzung",
+      "children": [
+        {
+          "id": "28",
+          "name": "Thermische Verletzung / Hitzeeinwirkung"
+        },
+        {
+          "id": "29",
+          "name": "Thermische Verletzung / Erfrierung"
+        },
+        {
+          "id": "30",
+          "name": "Thermische Verletzung / Stromverletzung"
+        },
+        {
+          "id": "31",
+          "name": "Thermische Verletzung / Blitzschlag"
+        },
+        {
+          "id": "32",
+          "name": "Thermische Verletzung / Chemische Verletzung"
+        },
+        {
+          "id": "33",
+          "name": "Thermische Verletzung / Strahlenbedingte Wunde"
+        },
+        {
+          "id": "34",
+          "name": "Thermische Verletzung / Anderes (unter Bemerkungen zu spezifizieren)"
+        }
+      ]
+    },
+    {
+      "id": "35",
+      "name": "Radiodermatitis",
+      "children": []
+    },
+    {
+      "id": "36",
+      "name": "Paravasat",
+      "children": []
+    },
+    {
+      "id": "37",
+      "name": "Trauma",
+      "children": [
+        {
+          "id": "38",
+          "name": "Trauma / Schürfungen"
+        },
+        {
+          "id": "39",
+          "name": "Trauma / Schnittwunden"
+        },
+        {
+          "id": "40",
+          "name": "Trauma / Stichwunde(n)"
+        },
+        {
+          "id": "41",
+          "name": "Trauma / Pfählungsverletzung"
+        },
+        {
+          "id": "42",
+          "name": "Trauma / Risswunde(n)"
+        },
+        {
+          "id": "43",
+          "name": "Trauma / Quetschwunde(n)"
+        },
+        {
+          "id": "44",
+          "name": "Trauma / Platzwunde(n)"
+        },
+        {
+          "id": "45",
+          "name": "Trauma / Ablederung"
+        },
+        {
+          "id": "46",
+          "name": "Trauma / Bisswunde(n)"
+        },
+        {
+          "id": "47",
+          "name": "Trauma / Traumatische Amputation"
+        },
+        {
+          "id": "48",
+          "name": "Trauma / Anderes (unter Bemerkungen zu spezifizieren)"
+        }
+      ]
+    },
+    {
+      "id": "49",
+      "name": "Maligne Wunde",
+      "children": []
+    },
+    {
+      "id": "50",
+      "name": "Andere",
+      "children": [
+        {
+          "id": "51",
+          "name": "Andere (unter Bemerkungen zu spezifizieren)"
+        },
+        {
+          "id": "52",
+          "name": "Geburtsverletzung"
+        }
+      ]
+    }
+  ]

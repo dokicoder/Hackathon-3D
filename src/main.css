@@ -11,11 +11,16 @@ html, body, #root, #main-container, .test-scene-container {
   height: 100%;
 }
 
+
 #main-container {
   margin: auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: stretch;
+
+  .test-scene-container{
+    width: 75vw;
+  }
 
   h1, h2 {
     text-align: center;
