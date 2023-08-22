@@ -1,4 +1,5 @@
 import {
+  Environment,
   OrbitControls,
   PerspectiveCamera,
   useGLTF
@@ -12,9 +13,6 @@ import { Body } from './Body';
 useGLTF.preload("/apple.gltf");
 
 export const TestScene: React.FC = () => {
-
-
-
   
 const canvasRef = React.createRef<HTMLCanvasElement>();
 const cameraRef = React.createRef<THREE.PerspectiveCamera>();
@@ -29,19 +27,19 @@ const cameraRef = React.createRef<THREE.PerspectiveCamera>();
         }
       >
         <Canvas ref={canvasRef}>
+          <Environment preset='studio'  />
           <PerspectiveCamera
             position={[0, 1.2, 7]}
             fov={60}
             ref={cameraRef} matrixWorldAutoUpdate={undefined} getObjectsByProperty={undefined}></PerspectiveCamera>
-          <pointLight position={[-12, -12, 8]} intensity={112} />
-          <ambientLight intensity={2} />
+        
           <Body></Body>
           <OrbitControls
             enableDamping={true}
             dampingFactor={0.25}
             enablePan={false}
             minDistance={7}
-            maxDistance={50}
+            maxDistance={100}
             rotateSpeed={0.3}
           />
           

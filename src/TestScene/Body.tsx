@@ -11,7 +11,7 @@ export const Body = () => {
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (!ref.current) return;
-    ref.current?.rotation.set(0, t / 2, 0);
+    //ref.current?.rotation.set(0, t / 2, 0);
   });
   return (
     <group ref={ref}>
