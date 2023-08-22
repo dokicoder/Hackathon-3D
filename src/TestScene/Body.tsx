@@ -2,16 +2,23 @@ import { useGLTF } from '@react-three/drei';
 import bodyUrl from '../assets/male_body.glb?url';
 import { createRef, useState } from 'react';
 import { Group, Vector3 } from 'three';
+import { MeshProps } from '@react-three/fiber';
 
-interface ISphereProps {
-  position: Vector3;
+interface ISphereProps extends MeshProps {
+  opacity: number;
+  color: string;
 }
 
-const Sphere = ({ position }: ISphereProps) => {
+interface IWoundState {
+  position: Vector3;
+  toggled: boolean;
+}
+
+const Sphere = ({ opacity, color, ...rest }: ISphereProps) => {
   return (
-    <mesh position={position}>
-      <sphereGeometry args={[0.4, 24, 24]} />
-      <meshStandardMaterial color={'blue'} />
+    <mesh {...rest}>
+      <sphereGeometry args={[0.2, 24, 24]} />
+      <meshBasicMaterial transparent opacity={opacity} color={color} />
     </mesh>
   );
 };
@@ -22,30 +29,73 @@ export const Body = () => {
   const el = useGLTF(bodyUrl);
   const ref = createRef<Group>();
 
-  const [position, setPosition] = useState<Vector3>(new Vector3(0, 0, 0));
+  const [previewPosition, setPreviewPosition] = useState<Vector3 | undefined>(
+    new Vector3(0, 0, 0)
+  );
+
+  const [woundStates, setWoundStates] = useState<IWoundState[]>([]);
 
   return (
     <group ref={ref}>
       <mesh
         receiveShadow
         castShadow
-        onPointerOver={(e) => {
-          e.stopPropagation();
-          console.log('enter', e);
-        }}
         onPointerOut={(e) => {
           console.log('exit', e);
+
+          setPreviewPosition(undefined);
         }}
         onPointerMove={(e) => {
           e.stopPropagation();
           console.log('move', e);
 
-          setPosition(e.point);
+          setPreviewPosition(e.point);
+        }}
+        onPointerDown={(e) => {
+          if (previewPosition) {
+            setWoundStates([
+              ...woundStates,
+              { position: previewPosition, toggled: true },
+            ]);
+          } else {
+            // TODO
+          }
         }}
       >
         <primitive object={el.scene} />;
       </mesh>
-      <Sphere position={position} />
+      {previewPosition && (
+        <Sphere position={previewPosition} color={'#ffaaaa'} opacity={0.5} />
+      )}
+      {woundStates.map(({ position, toggled }, idx) => (
+        <Sphere
+          position={position}
+          color={toggled ? '#1166ff' : '#ff6644'}
+          opacity={0.8}
+          onPointerMove={(e) => {
+            e.stopPropagation();
+            console.log('move', e);
+
+            const newStates = [...woundStates];
+            newStates[idx].toggled = true; // !newStates[idx].toggled;
+
+            setWoundStates(newStates);
+
+            setPreviewPosition(e.point);
+          }}
+          onPointerOut={(e) => {
+            e.stopPropagation();
+            console.log('move', e);
+
+            const newStates = [...woundStates];
+            newStates[idx].toggled = false; // !newStates[idx].toggled;
+
+            setWoundStates(newStates);
+
+            setPreviewPosition(e.point);
+          }}
+        />
+      ))}
     </group>
   );
 };
