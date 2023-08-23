@@ -70,7 +70,9 @@ export const Body = () => {
   const {
     wounds,
     selectedWoundIdx,
+    selectedWound,
     hoveredWoundIdx,
+    updateWound,
     addWound,
     setWoundHovered,
     selectWound,
@@ -82,6 +84,8 @@ export const Body = () => {
       <mesh
         receiveShadow
         castShadow
+        position={[0, 1, 0]}
+        scale={0.9}
         onPointerOut={(e) => {
           setPreviewPosition(undefined);
         }}
@@ -105,14 +109,22 @@ export const Body = () => {
           }
 
           if (previewPosition && hoveredWoundIdx === undefined) {
-            console.log(e.object.userData.name);
-
-            console.log('addWound');
-            addWound({
-              position: previewPosition,
-              bodyPart: e.object.userData.name || 'body',
-            });
-            //selectWound(wounds.length);
+            if (selectedWoundIdx !== undefined && selectedWound) {
+              updateWound(
+                {
+                  ...selectedWound,
+                  position: previewPosition,
+                },
+                selectedWoundIdx
+              );
+            } else {
+              console.log('addWound');
+              addWound({
+                position: previewPosition,
+                bodyPart: e.object.userData.name || 'body',
+              });
+              selectWound(wounds.length);
+            }
           }
         }}
         onPointerEnter={(e) => {

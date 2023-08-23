@@ -110,6 +110,7 @@ const FilterableTreeView = ({
         label="Wundtyp suchen"
         variant="outlined"
         fullWidth
+        size="small"
         value={filterText}
         sx={{ marginBottom: '16px' }}
         onChange={handleFilterChange}
