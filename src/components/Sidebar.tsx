@@ -24,7 +24,8 @@ const getLocationFromBodyPart = (bodyPart?: string) =>
   }[bodyPart as string] || 'Unspezifiziert');
 
 export const SideBar = (): JSX.Element => {
-  const { selectedWound, selectedWoundIdx, updateWound } = useWoundDocStore();
+  const { selectedWound, selectWound, selectedWoundIdx, updateWound } =
+    useWoundDocStore();
 
   const [selectedWoundType, setSelectedWoundType] = useState<
     string | undefined
@@ -41,6 +42,7 @@ export const SideBar = (): JSX.Element => {
         },
         selectedWoundIdx
       );
+    selectWound(undefined);
   };
 
   return (
@@ -51,6 +53,7 @@ export const SideBar = (): JSX.Element => {
             Körperlokation
           </Typography>
           <CssTextField
+            fullWidth
             id="filled-basic"
             variant="standard"
             value={getLocationFromBodyPart(selectedWound?.bodyPart)}
