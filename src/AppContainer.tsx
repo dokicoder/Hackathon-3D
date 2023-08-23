@@ -3,6 +3,7 @@ import { SideBar } from './components/Sidebar';
 import { useState } from 'react';
 import { useWoundDocStore } from './store';
 import { WoundList } from './components/WoundList';
+import { MenuBar } from './components/MenuBar';
 
 export type Wound = {
   woundType: string;
@@ -28,6 +29,7 @@ export const AppContainer = (): JSX.Element => {
       <WoundList woundList={wounds} onSelectWound={selectWound as any} />
       <TestScene />
       <SideBar key={selectedWound?.woundType} />
+      <MenuBar />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { useWoundDocStore } from '../store';
 interface ISphereProps extends MeshProps {
   opacity: number;
   color: string;
+  radius: number;
 }
 
 type Coordinates = {
@@ -27,10 +28,10 @@ const selectedWoundColor = '#1166ff';
 const hoveredWoundColor = '#66ff44';
 const defaultWoundColor = '#ff6644';
 
-const Sphere = ({ opacity, color, ...rest }: ISphereProps) => {
+const Sphere = ({ opacity, color, radius, ...rest }: ISphereProps) => {
   return (
     <mesh {...rest}>
-      <sphereGeometry args={[0.2, 24, 24]} />
+      <sphereGeometry args={[radius, 24, 24]} />
       <meshBasicMaterial transparent opacity={opacity} color={color} />
     </mesh>
   );
@@ -204,9 +205,14 @@ export const Body = () => {
         </group>
       </mesh>
       {previewPosition && showPreview && (
-        <Sphere position={previewPosition} color={'#ffaaaa'} opacity={0.5} />
+        <Sphere
+          position={previewPosition}
+          radius={0.2}
+          color={'#ffaaaa'}
+          opacity={0.5}
+        />
       )}
-      {wounds.map(({ position }, idx) => (
+      {wounds.map(({ position, size }, idx) => (
         <Sphere
           position={position}
           color={
@@ -216,7 +222,8 @@ export const Body = () => {
               ? hoveredWoundColor
               : defaultWoundColor
           }
-          opacity={0.8}
+          radius={size}
+          opacity={0.6}
           key={idx}
           onPointerMove={(e) => {
             e.stopPropagation();

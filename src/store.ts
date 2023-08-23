@@ -3,7 +3,7 @@ import { create } from 'zustand';
 
 export interface IWoundState {
   position: Vector3;
-  //toggled: boolean;
+  size: number;
   bodyPart: string;
   woundType?: string;
   createDate?: Date;
