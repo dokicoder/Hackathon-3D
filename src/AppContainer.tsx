@@ -33,7 +33,7 @@ export const AppContainer = (): JSX.Element => {
         <ToolBar />
         <BottomBar />
       </div>
-      <SideBar key={selectedWound?.woundType} />
+      <SideBar key={selectedWound?.id} />
     </div>
   );
 };

@@ -9,6 +9,7 @@ export interface IWoundState {
   bodyPart: string;
   woundType?: string;
   createDate?: Date;
+  new: boolean;
 }
 
 interface IApplicationState {
@@ -21,7 +22,7 @@ interface IApplicationState {
 }
 
 interface IApplicationInterface {
-  addWound: (wound: Omit<IWoundState,'id'>) => string;
+  addWound: (wound: Omit<IWoundState,'id'| 'new'>) => string;
   updateWound: (wound: IWoundState) => void;
   removeWound: (id: string) => void;
   selectWound: (id: string | undefined) => void;
@@ -46,14 +47,14 @@ export const useWoundStore = create<IApplicationState & IApplicationInterface>(
     showResizePreview: false,
     addWound: (wound) => {
       const id = uuidv4();
-      set(({ wounds }) => ({ wounds: [...wounds, {...wound, id }] }));
+      set(({ wounds }) => ({ wounds: [...wounds, {...wound, id, new: true }] }));
       return id;
 
    },
     updateWound: (newWound: IWoundState) =>
       set(({ wounds }) => ({
         wounds: wounds.map((wound) =>
-        wound.id === newWound.id ? newWound : wound
+        wound.id === newWound.id ? {...newWound, new: false} : wound
         ),
       })),
     removeWound: (deleteId) =>
