@@ -64,7 +64,7 @@ html, body, #root, #main-container, .test-scene-container {
 
 .label{
   width: 200px;
-  border-top: 2px solid rgb(214, 214, 214);
+  border-top: 2px solid rgba(197, 197, 197, 0.5);
 
 }
 

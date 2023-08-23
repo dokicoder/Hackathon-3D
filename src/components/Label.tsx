@@ -10,7 +10,7 @@ export const Label = ({ wound }: { wound: IWoundState }) => {
   return (
     <Html key={wound.bodyPart} position={wound.position}>
       <div className={wound.position.x < 0 ? 'label left' : 'label right'}>
-        <Card>
+        <Card elevation={1} variant="outlined">
           <CardContent>{wound.woundType}</CardContent>
         </Card>
       </div>
