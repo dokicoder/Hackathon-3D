@@ -90,8 +90,8 @@ export const Body = () => {
       <mesh
         receiveShadow
         castShadow
-        position={[0, 0.4, 0]}
-        scale={0.9}
+        position={[0, 0.9, 0]}
+        scale={0.8}
         onPointerOut={(e) => {
           setPreviewPosition(undefined);
         }}
