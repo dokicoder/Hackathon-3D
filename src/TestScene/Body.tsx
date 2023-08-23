@@ -242,7 +242,7 @@ export const Body = () => {
             receiveShadow
             geometry={nodes.EyeGlass_low_EyeGlass_low_0.geometry}
             material={materials.EyeGlass_low}
-            userData={{ name: 'body' }}
+            userData={{ name: 'eyes' }}
           />
           <mesh
             castShadow

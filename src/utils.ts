@@ -10,4 +10,5 @@ export const getLocationFromBodyPart = (bodyPart?: string, fallBack?: string) =>
     arm_left_lower_front: 'Linker Unterarm, Vorderseite',
     arm_right_lower_front: 'Rechter Unterarm, Vorderseite',
     body: 'Sonstige',
+    eyes: 'Augen',
   }[bodyPart as string] || fallBack);

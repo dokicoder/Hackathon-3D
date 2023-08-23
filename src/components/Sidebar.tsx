@@ -91,7 +91,7 @@ export const SideBar = (): JSX.Element => {
             )}
           />
 
-          <Divider sx={{ marginTop: '16px', marginBottom: '16px' }} />
+          <Divider sx={{ marginTop: '12px', marginBottom: '12px' }} />
           <Typography fontSize="1.5em" marginTop="8px" marginBottom="8px">
             Wundtyp
           </Typography>
@@ -100,7 +100,7 @@ export const SideBar = (): JSX.Element => {
             selectedItem={selectedWoundType}
           />
           {selectedWoundType && (
-            <p>Ausgewählter Wundtype: {selectedWoundType}</p>
+            <p>Ausgewählter Wundtyp: {selectedWoundType}</p>
           )}
 
           <Typography marginTop="8px" marginBottom="8px">

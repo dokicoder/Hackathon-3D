@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 
 const loadFileAsData = (file: File, afterLoading: (e: Event) => void) => {
   if (!file) return;
@@ -27,14 +27,13 @@ const FileUploadMultiple = ({
   };
 
   return (
-    <div>
+    <div className="file-upload">
       <input type="file" onChange={handleFileChange} multiple />
-
-      <ul>
-        {woundPictures.map((wound, i) => (
-          <img src={wound} key={'w' + i} width={'100px'} />
-        ))}
-      </ul>
+      {woundPictures.map((wound, idx) => (
+        <div className="wound-picture" key={idx}>
+          <img src={wound} key={'w' + idx} width={'100px'} />
+        </div>
+      ))}
     </div>
   );
 };
