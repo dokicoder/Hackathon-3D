@@ -8,6 +8,7 @@ import { useWoundDocStore } from '../store';
 interface ISphereProps extends MeshProps {
   opacity: number;
   color: string;
+  radius: number;
 }
 
 type Coordinates = {
@@ -27,10 +28,12 @@ const selectedWoundColor = '#1166ff';
 const hoveredWoundColor = '#66ff44';
 const defaultWoundColor = '#ff6644';
 
-const Sphere = ({ opacity, color, ...rest }: ISphereProps) => {
+const transformMarkerSize = (size: number) => (size / 100) * 0.5;
+
+const Sphere = ({ opacity, color, radius, ...rest }: ISphereProps) => {
   return (
     <mesh {...rest}>
-      <sphereGeometry args={[0.2, 24, 24]} />
+      <sphereGeometry args={[radius, 24, 24]} />
       <meshBasicMaterial transparent opacity={opacity} color={color} />
     </mesh>
   );
@@ -71,6 +74,8 @@ export const Body = () => {
     selectedWoundIdx,
     selectedWound,
     hoveredWoundIdx,
+    markerPreviewSize,
+    showResizePreview,
     updateWound,
     addWound,
     setWoundHovered,
@@ -83,12 +88,14 @@ export const Body = () => {
       <mesh
         receiveShadow
         castShadow
-        position={[0, 1, 0]}
+        position={[0, 0.4, 0]}
         scale={0.9}
         onPointerOut={(e) => {
           setPreviewPosition(undefined);
         }}
         onPointerMove={(e) => {
+          console.log(e);
+
           e.stopPropagation();
           setPreviewPosition(e.point);
         }}
@@ -118,10 +125,10 @@ export const Body = () => {
                 selectedWoundIdx
               );
             } else {
-              console.log('addWound');
               addWound({
                 position: previewPosition,
                 bodyPart: e.object.userData.name || 'body',
+                size: markerPreviewSize,
               });
               selectWound(wounds.length);
             }
@@ -217,9 +224,23 @@ export const Body = () => {
         </group>
       </mesh>
       {previewPosition && showPreview && (
-        <Sphere position={previewPosition} color={'#ffaaaa'} opacity={0.5} />
+        <Sphere
+          position={previewPosition}
+          radius={transformMarkerSize(markerPreviewSize)}
+          color={'#ffaaaa'}
+          opacity={0.5}
+        />
       )}
-      {wounds.map(({ position }, idx) => (
+      {showResizePreview && (
+        <Sphere
+          position={[-1, 2.3, 0.4]}
+          radius={transformMarkerSize(markerPreviewSize)}
+          color={'#ffaaaa'}
+          opacity={1.0}
+        />
+      )}
+
+      {wounds.map(({ position, size }, idx) => (
         <Sphere
           position={position}
           color={
@@ -229,7 +250,8 @@ export const Body = () => {
               ? hoveredWoundColor
               : defaultWoundColor
           }
-          opacity={0.8}
+          radius={transformMarkerSize(size)}
+          opacity={0.6}
           key={idx}
           onPointerMove={(e) => {
             e.stopPropagation();
