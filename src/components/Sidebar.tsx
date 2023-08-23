@@ -77,15 +77,22 @@ export const SideBar = (): JSX.Element => {
             selectedItem={selectedWoundType}
           />
           {selectedWoundType && (
-            <p>Ausgewählter Wundtype: {selectedWoundType}</p>
+            <p>
+              Ausgewählter Wundtype:{' '}
+              <span style={{ fontWeight: 'bold' }}>{selectedWoundType}</span>
+            </p>
           )}
-
-          <Typography marginTop="8px" marginBottom="8px">
+          <Typography marginTop="16px" marginBottom="8px">
             Zeitpunkt des ersten Auftritts der Wunde
           </Typography>
           <DatePicker
             slotProps={{ textField: { size: 'small', fullWidth: true } }}
           />
+
+          <Typography marginTop="16px" marginBottom="8px">
+            Bemerkung
+          </Typography>
+          <TextField multiline fullWidth />
         </CardContent>
         <CardActions>
           <Button variant="contained" onClick={onSaveHandler}>

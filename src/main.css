@@ -78,20 +78,19 @@ html, body, #root, #main-container, .test-scene-container {
 
 .label{
   pointer-events: none;
-  width: 200px;
   border-top: 2px solid rgba(197, 197, 197, 0.5);
 
 }
 
 .label.right{
   .MuiCard-root{
-    transform: translateX(200px) translateY(-50%);
+    transform: translateX(150px) translateY(-50%);
   }
 }
 
 .label.left{
   transform: translateX(-100%);
   .MuiCard-root{
-    transform: translateX(-190px) translateY(-50%);
+    transform: translateX(-140px) translateY(-50%);
   }
 }
