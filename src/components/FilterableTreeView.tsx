@@ -69,10 +69,10 @@ const FilterableTreeView = ({
   const filteredData = filterNodes(data, filterText);
 
   const expanded =
-    filterText != '' ? filteredData.map((node) => node.id) : expandedItems;
+    filterText !== '' ? filteredData.map((node) => node.id) : expandedItems;
 
   const childItems = filteredData.flatMap((d) =>
-    d.children?.length != 0 ? d.children : d
+    d.children?.length !== 0 ? d.children : d
   );
 
   if (childItems.length === 1) {

@@ -30,8 +30,7 @@ const getLocationFromBodyPart = (bodyPart?: string) =>
   }[bodyPart as string] || 'Unspezifiziert');
 
 export const SideBar = (): JSX.Element => {
-  const { selectedWound, selectWound, selectedWoundIdx, updateWound } =
-    useWoundDocStore();
+  const { selectedWound, selectWound, updateWound } = useWoundDocStore();
 
   const [selectedWoundType, setSelectedWoundType] = useState<
     string | undefined
@@ -39,15 +38,11 @@ export const SideBar = (): JSX.Element => {
 
   const onSaveHandler = (): void => {
     selectedWound &&
-      selectedWoundIdx &&
-      updateWound(
-        {
-          ...selectedWound,
-          woundType: selectedWoundType,
-          createDate: new Date(),
-        },
-        selectedWoundIdx
-      );
+      updateWound({
+        ...selectedWound,
+        woundType: selectedWoundType,
+        createDate: selectedWound.createDate ?? new Date(),
+      });
     selectWound(undefined);
   };
 

@@ -1,10 +1,9 @@
-import { Html, useGLTF } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 import { createRef, useRef, useState } from 'react';
 import { Group, Material, Mesh, MeshStandardMaterial, Vector3 } from 'three';
 import { MeshProps } from '@react-three/fiber';
 import bodyUrl from '../assets/male_body_separated.glb?url';
 import { useWoundDocStore } from '../store';
-import { Card, CardContent } from '@mui/material';
 import { Label } from '../components/Label';
 
 interface ISphereProps extends MeshProps {
@@ -74,9 +73,8 @@ export const Body = () => {
 
   const {
     wounds,
-    selectedWoundIdx,
     selectedWound,
-    hoveredWoundIdx,
+    hoveredWound,
     markerPreviewSize,
     showResizePreview,
     updateWound,
@@ -117,23 +115,20 @@ export const Body = () => {
             return;
           }
 
-          if (previewPosition && hoveredWoundIdx === undefined) {
-            if (selectedWoundIdx !== undefined && selectedWound) {
-              updateWound(
-                {
-                  ...selectedWound,
-                  position: previewPosition,
-                  bodyPart: e.object.userData.name || 'body',
-                },
-                selectedWoundIdx
-              );
+          if (previewPosition && hoveredWound === undefined) {
+            if (selectedWound) {
+              updateWound({
+                ...selectedWound,
+                position: previewPosition,
+                bodyPart: e.object.userData.name || 'body',
+              });
             } else {
-              addWound({
+              const id = addWound({
                 position: previewPosition,
                 bodyPart: e.object.userData.name || 'body',
                 size: markerPreviewSize,
               });
-              selectWound(wounds.length);
+              selectWound(id);
             }
           }
         }}
@@ -276,9 +271,9 @@ export const Body = () => {
           <Sphere
             position={wound.position}
             color={
-              idx === selectedWoundIdx
+              wound.id === selectedWound?.id
                 ? selectedWoundColor
-                : idx === hoveredWoundIdx
+                : wound.id === hoveredWound?.id
                 ? hoveredWoundColor
                 : defaultWoundColor
             }
@@ -287,7 +282,7 @@ export const Body = () => {
             key={idx}
             onPointerMove={(e) => {
               e.stopPropagation();
-              setWoundHovered(idx);
+              setWoundHovered(wound.id);
               setPreviewPosition(e.point);
               setShowPreview(false);
             }}
@@ -298,7 +293,7 @@ export const Body = () => {
               setShowPreview(true);
             }}
             onPointerUp={(e) => {
-              selectWound(idx);
+              selectWound(wound.id);
             }}
           />
           <Label wound={wound} />
