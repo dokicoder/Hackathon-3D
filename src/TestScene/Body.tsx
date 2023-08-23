@@ -143,7 +143,7 @@ export const Body = () => {
             (e.object as Mesh).material as MeshStandardMaterial
           ).clone();
 
-          coloredMaterial.setValues({ color: '#88bb88' });
+          coloredMaterial.setValues({ color: '#949292' });
 
           (e.object as Mesh).material = coloredMaterial;
         }}
