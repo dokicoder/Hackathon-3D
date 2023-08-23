@@ -4,12 +4,17 @@ import Slider from '@mui/material/Slider';
 import { useWoundDocStore } from '../store';
 import { useEffect } from 'react';
 import { Fade, Typography } from '@mui/material';
+import MaleIcon from '@mui/icons-material/Male';
+import FemaleIcon from '@mui/icons-material/Female';
+import IconButton from '@mui/material/IconButton';
 
 export const ToolBar = (): JSX.Element => {
   const {
+    gender,
     markerPreviewSize,
     selectedWound,
     setMarkerPreviewSize,
+    setGender,
     setShowResizePreview,
   } = useWoundDocStore();
 
@@ -27,7 +32,7 @@ export const ToolBar = (): JSX.Element => {
           top: 20,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: 300,
+          width: 400,
           overflow: 'visible',
         }}
       >
@@ -39,6 +44,18 @@ export const ToolBar = (): JSX.Element => {
             alignItems: 'center',
           }}
         >
+          <Typography fontSize="1rem" sx={{ whiteSpace: 'nowrap' }}>
+            Model:
+          </Typography>
+          <IconButton
+            color="primary"
+            aria-label="add an alarm"
+            onClick={(event) =>
+              setGender(gender === 'male' ? 'female' : 'male')
+            }
+          >
+            {gender === 'female' ? <FemaleIcon /> : <MaleIcon />}
+          </IconButton>
           <Typography fontSize="1rem" sx={{ whiteSpace: 'nowrap' }}>
             Marker Size: {markerPreviewSize.toFixed(0)}
           </Typography>

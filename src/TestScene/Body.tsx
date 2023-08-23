@@ -2,9 +2,11 @@ import { useGLTF } from '@react-three/drei';
 import { createRef, useRef, useState } from 'react';
 import { Group, Material, Mesh, MeshStandardMaterial, Vector3 } from 'three';
 import { MeshProps } from '@react-three/fiber';
-import bodyUrl from '../assets/male_body_separated.glb?url';
+
 import { useWoundDocStore } from '../store';
 import { Label } from '../components/Label';
+import { MaleBody } from '../components/MaleBody';
+import { FemaleBody } from '../components/FemaleBody';
 
 interface ISphereProps extends MeshProps {
   opacity: number;
@@ -41,10 +43,7 @@ const Sphere = ({ opacity, color, radius, ...rest }: ISphereProps) => {
   );
 };
 
-useGLTF.preload(bodyUrl);
-
 export const Body = () => {
-  const { nodes, materials } = useGLTF(bodyUrl) as any;
   const ref = createRef<Group>();
 
   const [clickRef, setClickRef] = useState<Coordinates | null>(null);
@@ -82,6 +81,7 @@ export const Body = () => {
     setWoundHovered,
     selectWound,
     setHoveredBodyPart,
+    gender,
   } = useWoundDocStore();
 
   return (
@@ -166,92 +166,7 @@ export const Body = () => {
           setClickRef(null);
         }}
       >
-        <group dispose={null}>
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.arm_left_lower_back.geometry}
-            material={materials.Body_low}
-            userData={{ name: 'arm_left_lower_back' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.arm_left_lower_front.geometry}
-            material={materials.Body_low}
-            userData={{ name: 'arm_left_lower_front' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.arm_right_lower_back.geometry}
-            material={materials.Body_low}
-            userData={{ name: 'arm_right_lower_back' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.arm_right_lower_front.geometry}
-            material={materials.Body_low}
-            userData={{ name: 'arm_right_lower_front' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Body_low_Body_low_0.geometry}
-            material={materials.Body_low}
-            userData={{ name: 'body' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.face_front.geometry}
-            material={materials.Body_low}
-            userData={{ name: 'face_front' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.foot_left.geometry}
-            material={materials.Body_low}
-            userData={{ name: 'foot_left' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.foot_right.geometry}
-            material={materials.Body_low}
-            userData={{ name: 'foot_right' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.hand_left.geometry}
-            material={materials.Body_low}
-            userData={{ name: 'hand_left' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.hand_right.geometry}
-            material={materials.Body_low}
-            userData={{ name: 'hand_right' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.EyeGlass_low_EyeGlass_low_0.geometry}
-            material={materials.EyeGlass_low}
-            userData={{ name: 'eyes' }}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Male_Basic_Male_Basic_0.geometry}
-            material={materials.Male_Basic}
-            userData={{ name: 'body' }}
-          />
-        </group>
+        {gender === 'female' ? <FemaleBody /> : <MaleBody />}
       </mesh>
       {previewPosition && showPreview && (
         <Sphere
