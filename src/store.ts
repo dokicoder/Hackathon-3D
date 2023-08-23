@@ -40,7 +40,7 @@ interface IComputedApplicationInterface {
 export const useWoundStore = create<IApplicationState & IApplicationInterface>(
   (set) => ({
     wounds: [],
-    markerPreviewSize: 50,
+    markerPreviewSize: 25,
     selectedWoundId: undefined,
     hoveredWoundId: undefined,
     hoveredBodyPart: undefined,

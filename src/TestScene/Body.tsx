@@ -146,7 +146,7 @@ export const Body = () => {
             (e.object as Mesh).material as MeshStandardMaterial
           ).clone();
 
-          coloredMaterial.setValues({ color: '#949292' });
+          coloredMaterial.setValues({ color: '#6e6d6d' });
 
           setHoveredBodyPart(e.object.userData.name);
 
