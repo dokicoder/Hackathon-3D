@@ -7,6 +7,7 @@ export interface IWoundState {
   bodyPart: string;
   woundType?: string;
   createDate?: Date;
+  appendedPictures: Array<File>
 }
 
 interface IApplicationState {

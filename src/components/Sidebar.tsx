@@ -4,6 +4,7 @@ import FilterableTreeView from './FilterableTreeView';
 import { useState } from 'react';
 import {
   CardActions,
+  Input,
   Slide,
   TextField,
   Typography,
@@ -13,6 +14,9 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useWoundDocStore } from '../store';
+import InputFileUpload from './FileUpload';
+import { FileUpload } from '@mui/icons-material';
+import FileUploadMultiple from './FileUpload';
 
 const CssTextField = styled(TextField)({
   '& .MuiInput-root:before': {
@@ -37,6 +41,8 @@ export const SideBar = (): JSX.Element => {
     string | undefined
   >(selectedWound?.woundType);
 
+  const [selectedWoundPictures, setSelectedWoundPictures] = useState<File[]>(selectedWound?.appendedPictures || []);
+
   const onSaveHandler = (): void => {
     selectedWound &&
       selectedWoundIdx &&
@@ -45,6 +51,7 @@ export const SideBar = (): JSX.Element => {
           ...selectedWound,
           woundType: selectedWoundType,
           createDate: new Date(),
+          appendedPictures: [],
         },
         selectedWoundIdx
       );
@@ -91,6 +98,7 @@ export const SideBar = (): JSX.Element => {
           <DatePicker
             slotProps={{ textField: { size: 'small', fullWidth: true } }}
           />
+          <FileUploadMultiple woundPictures={selectedWoundPictures} setWoundPictures={setSelectedWoundPictures} />
         </CardContent>
         <CardActions>
           <Button variant="contained" onClick={() => onSaveHandler()}>
