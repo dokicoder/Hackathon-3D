@@ -1,9 +1,11 @@
-import { useGLTF } from '@react-three/drei';
+import { Html, useGLTF } from '@react-three/drei';
 import { createRef, useRef, useState } from 'react';
 import { Group, Material, Mesh, MeshStandardMaterial, Vector3 } from 'three';
 import { MeshProps } from '@react-three/fiber';
 import bodyUrl from '../assets/male_body_separated.glb?url';
 import { useWoundDocStore } from '../store';
+import { Card, CardContent } from '@mui/material';
+import { Label } from '../components/Label';
 
 interface ISphereProps extends MeshProps {
   opacity: number;
@@ -24,9 +26,10 @@ const calculateDistance = (start: Coordinates, end: Coordinates): number => {
   return Math.sqrt(deltaX ** 2 + deltaY ** 2);
 };
 
-const selectedWoundColor = '#1166ff';
-const hoveredWoundColor = '#66ff44';
-const defaultWoundColor = '#ff6644';
+const pointerColor = '#FDE66C';
+const selectedWoundColor = '#FF7A00';
+const hoveredWoundColor = '#FFB800';
+const defaultWoundColor = '#ffe100';
 
 const transformMarkerSize = (size: number) => (size / 100) * 0.5;
 
@@ -148,7 +151,7 @@ export const Body = () => {
             (e.object as Mesh).material as MeshStandardMaterial
           ).clone();
 
-          coloredMaterial.setValues({ color: '#88bb88' });
+          coloredMaterial.setValues({ color: '#949292' });
 
           setHoveredBodyPart(e.object.userData.name);
 
@@ -170,6 +173,34 @@ export const Body = () => {
         }}
       >
         <group dispose={null}>
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.arm_left_lower_back.geometry}
+            material={materials.Body_low}
+            userData={{ name: 'arm_left_lower_back' }}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.arm_left_lower_front.geometry}
+            material={materials.Body_low}
+            userData={{ name: 'arm_left_lower_front' }}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.arm_right_lower_back.geometry}
+            material={materials.Body_low}
+            userData={{ name: 'arm_right_lower_back' }}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.arm_right_lower_front.geometry}
+            material={materials.Body_low}
+            userData={{ name: 'arm_right_lower_front' }}
+          />
           <mesh
             castShadow
             receiveShadow
@@ -232,7 +263,7 @@ export const Body = () => {
         <Sphere
           position={previewPosition}
           radius={transformMarkerSize(markerPreviewSize)}
-          color={'#ffaaaa'}
+          color={pointerColor}
           opacity={0.5}
         />
       )}
@@ -240,40 +271,43 @@ export const Body = () => {
         <Sphere
           position={[-1, 2.3, 0.4]}
           radius={transformMarkerSize(markerPreviewSize)}
-          color={'#ffaaaa'}
+          color={pointerColor}
           opacity={1.0}
         />
       )}
 
-      {wounds.map(({ position, size }, idx) => (
-        <Sphere
-          position={position}
-          color={
-            idx === selectedWoundIdx
-              ? selectedWoundColor
-              : idx === hoveredWoundIdx
-              ? hoveredWoundColor
-              : defaultWoundColor
-          }
-          radius={transformMarkerSize(size)}
-          opacity={0.6}
-          key={idx}
-          onPointerMove={(e) => {
-            e.stopPropagation();
-            setWoundHovered(idx);
-            setPreviewPosition(e.point);
-            setShowPreview(false);
-          }}
-          onPointerOut={(e) => {
-            e.stopPropagation();
-            setWoundHovered(undefined);
-            setPreviewPosition(e.point);
-            setShowPreview(true);
-          }}
-          onPointerUp={(e) => {
-            selectWound(idx);
-          }}
-        />
+      {wounds.map((wound, idx) => (
+        <>
+          <Sphere
+            position={wound.position}
+            color={
+              idx === selectedWoundIdx
+                ? selectedWoundColor
+                : idx === hoveredWoundIdx
+                ? hoveredWoundColor
+                : defaultWoundColor
+            }
+            radius={transformMarkerSize(wound.size)}
+            opacity={0.8}
+            key={idx}
+            onPointerMove={(e) => {
+              e.stopPropagation();
+              setWoundHovered(idx);
+              setPreviewPosition(e.point);
+              setShowPreview(false);
+            }}
+            onPointerOut={(e) => {
+              e.stopPropagation();
+              setWoundHovered(undefined);
+              setPreviewPosition(e.point);
+              setShowPreview(true);
+            }}
+            onPointerUp={(e) => {
+              selectWound(idx);
+            }}
+          />
+          <Label wound={wound} />
+        </>
       ))}
     </group>
   );
