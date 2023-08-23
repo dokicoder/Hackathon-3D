@@ -1,9 +1,11 @@
-import { useGLTF } from '@react-three/drei';
+import { Html, useGLTF } from '@react-three/drei';
 import { createRef, useRef, useState } from 'react';
 import { Group, Material, Mesh, MeshStandardMaterial, Vector3 } from 'three';
 import { MeshProps } from '@react-three/fiber';
 import bodyUrl from '../assets/male_body_separated.glb?url';
 import { useWoundDocStore } from '../store';
+import { Card, CardContent } from '@mui/material';
+import { Label } from '../components/Label';
 
 interface ISphereProps extends MeshProps {
   opacity: number;
@@ -219,34 +221,37 @@ export const Body = () => {
       {previewPosition && showPreview && (
         <Sphere position={previewPosition} color={'#ffaaaa'} opacity={0.5} />
       )}
-      {wounds.map(({ position }, idx) => (
-        <Sphere
-          position={position}
-          color={
-            idx === selectedWoundIdx
-              ? selectedWoundColor
-              : idx === hoveredWoundIdx
-              ? hoveredWoundColor
-              : defaultWoundColor
-          }
-          opacity={0.8}
-          key={idx}
-          onPointerMove={(e) => {
-            e.stopPropagation();
-            setWoundHovered(idx);
-            setPreviewPosition(e.point);
-            setShowPreview(false);
-          }}
-          onPointerOut={(e) => {
-            e.stopPropagation();
-            setWoundHovered(undefined);
-            setPreviewPosition(e.point);
-            setShowPreview(true);
-          }}
-          onPointerUp={(e) => {
-            selectWound(idx);
-          }}
-        />
+      {wounds.map((wound, idx) => (
+        <>
+          <Sphere
+            position={wound.position}
+            color={
+              idx === selectedWoundIdx
+                ? selectedWoundColor
+                : idx === hoveredWoundIdx
+                ? hoveredWoundColor
+                : defaultWoundColor
+            }
+            opacity={0.8}
+            key={idx}
+            onPointerMove={(e) => {
+              e.stopPropagation();
+              setWoundHovered(idx);
+              setPreviewPosition(e.point);
+              setShowPreview(false);
+            }}
+            onPointerOut={(e) => {
+              e.stopPropagation();
+              setWoundHovered(undefined);
+              setPreviewPosition(e.point);
+              setShowPreview(true);
+            }}
+            onPointerUp={(e) => {
+              selectWound(idx);
+            }}
+          ></Sphere>
+          <Label wound={wound} />
+        </>
       ))}
     </group>
   );
