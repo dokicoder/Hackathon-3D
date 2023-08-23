@@ -171,6 +171,34 @@ export const Body = () => {
           <mesh
             castShadow
             receiveShadow
+            geometry={nodes.arm_left_lower_back.geometry}
+            material={materials.Body_low}
+            userData={{ name: 'arm_left_lower_back' }}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.arm_left_lower_front.geometry}
+            material={materials.Body_low}
+            userData={{ name: 'arm_left_lower_front' }}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.arm_right_lower_back.geometry}
+            material={materials.Body_low}
+            userData={{ name: 'arm_right_lower_back' }}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.arm_right_lower_front.geometry}
+            material={materials.Body_low}
+            userData={{ name: 'arm_right_lower_front' }}
+          />
+          <mesh
+            castShadow
+            receiveShadow
             geometry={nodes.Body_low_Body_low_0.geometry}
             material={materials.Body_low}
             userData={{ name: 'body' }}
