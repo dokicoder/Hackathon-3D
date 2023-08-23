@@ -51,6 +51,10 @@ export const SideBar = (): JSX.Element => {
     selectWound(undefined);
   };
 
+  const onAbortHandler = (): void => {
+    selectWound(undefined);
+  };
+
   return (
     <Slide in={!!selectedWound} direction="left">
       <Card
@@ -60,6 +64,7 @@ export const SideBar = (): JSX.Element => {
           right: 0,
           top: 0,
           height: '100vh',
+          isolation: 'isolate',
         }}
       >
         <CardContent>
@@ -93,10 +98,10 @@ export const SideBar = (): JSX.Element => {
           />
         </CardContent>
         <CardActions>
-          <Button variant="contained" onClick={() => onSaveHandler()}>
+          <Button variant="contained" onClick={onSaveHandler}>
             Speichern
           </Button>
-          <Button onClick={() => onSaveHandler()}>Abbrechen</Button>
+          <Button onClick={onAbortHandler}>Abbrechen</Button>
         </CardActions>
       </Card>
     </Slide>
