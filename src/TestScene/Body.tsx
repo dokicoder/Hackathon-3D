@@ -97,8 +97,6 @@ export const Body = () => {
           setPreviewPosition(undefined);
         }}
         onPointerMove={(e) => {
-          console.log(e);
-
           e.stopPropagation();
           setPreviewPosition(e.point);
         }}
@@ -132,6 +130,7 @@ export const Body = () => {
                 position: previewPosition,
                 bodyPart: e.object.userData.name || 'body',
                 size: markerPreviewSize,
+                appendedPictures: [],
               });
               selectWound(wounds.length);
             }
@@ -139,7 +138,6 @@ export const Body = () => {
         }}
         onPointerEnter={(e) => {
           e.stopPropagation();
-          console.log(e);
 
           if (hoverMaterialRef.current) {
             hoverMaterialRef.current.dispose();
@@ -244,8 +242,9 @@ export const Body = () => {
       )}
 
       {wounds.map((wound, idx) => (
-        <>
+        <group key={idx}>
           <Sphere
+            key={idx}
             position={wound.position}
             color={
               idx === selectedWoundIdx
@@ -256,7 +255,6 @@ export const Body = () => {
             }
             radius={transformMarkerSize(wound.size)}
             opacity={0.8}
-            key={idx}
             onPointerMove={(e) => {
               e.stopPropagation();
               setWoundHovered(idx);
@@ -274,7 +272,7 @@ export const Body = () => {
             }}
           />
           <Label wound={wound} />
-        </>
+        </group>
       ))}
     </group>
   );

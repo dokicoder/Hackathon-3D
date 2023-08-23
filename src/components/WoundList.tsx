@@ -18,8 +18,8 @@ export const WoundList = ({
       }}
     >
       <CardContent>
-        {woundList.map((wound) => (
-          <div key={wound.woundType} onClick={() => onSelectWound(wound)}>
+        {woundList.map((wound, idx) => (
+          <div key={idx} onClick={() => onSelectWound(wound)}>
             {wound.woundType}
           </div>
         ))}

@@ -4,7 +4,6 @@ import FilterableTreeView from './FilterableTreeView';
 import { useEffect, useState } from 'react';
 import {
   CardActions,
-  Input,
   Slide,
   TextField,
   Typography,
@@ -35,31 +34,44 @@ export const SideBar = (): JSX.Element => {
   const { selectedWound, selectWound, selectedWoundIdx, updateWound } =
     useWoundDocStore();
 
-
   const [selectedWoundType, setSelectedWoundType] = useState<
     string | undefined
   >(selectedWound?.woundType);
 
-  const [selectedWoundPictures, setSelectedWoundPictures] = useState<string[]>(selectedWound?.appendedPictures || []);
+  const [selectedWoundPictures, setSelectedWoundPictures] = useState<string[]>(
+    selectedWound?.appendedPictures || []
+  );
 
   useEffect(() => {
     setSelectedWoundPictures([]);
-  }, [selectedWound])
+  }, [selectedWound]);
 
   const onSaveHandler = (): void => {
+    console.log({
+      ...selectedWound,
+      woundType: selectedWoundType,
+      createDate: new Date(),
+      appendedPictures: [...selectedWoundPictures],
+    });
+
     selectedWound &&
-      selectedWoundIdx &&
+      selectedWoundIdx !== undefined &&
       updateWound(
         {
           ...selectedWound,
           woundType: selectedWoundType,
           createDate: new Date(),
-          appendedPictures: selectedWoundPictures,
+          appendedPictures: [...selectedWoundPictures],
         },
         selectedWoundIdx
       );
     selectWound(undefined);
   };
+
+  console.log({
+    selectedWoundPictures,
+    appendedPictures: selectedWound?.appendedPictures,
+  });
 
   const onAbortHandler = (): void => {
     selectWound(undefined);
@@ -106,7 +118,15 @@ export const SideBar = (): JSX.Element => {
           <DatePicker
             slotProps={{ textField: { size: 'small', fullWidth: true } }}
           />
-          <FileUploadMultiple woundPictures={selectedWoundPictures.length === 0 && selectedWound?.appendedPictures || selectedWoundPictures} setWoundPictures={setSelectedWoundPictures} />
+          <FileUploadMultiple
+            woundPictures={
+              !selectedWoundPictures?.length &&
+              selectedWound?.appendedPictures.length
+                ? selectedWound.appendedPictures
+                : selectedWoundPictures
+            }
+            setWoundPictures={setSelectedWoundPictures}
+          />
         </CardContent>
         <CardActions>
           <Button variant="contained" onClick={onSaveHandler}>
