@@ -20,7 +20,7 @@ html, body, #root, #main-container, .test-scene-container {
 
   .test-scene-container{
     position: relative;
-    width: calc(100% ;
+    width: 100% ;
   }
 
   h1, h2 {
@@ -63,7 +63,7 @@ html, body, #root, #main-container, .test-scene-container {
   text-align: center;
   min-height: 40px;
   vertical-align: center;
-
+}
 
 .annotation {
   transform: translate3d(calc(50%), calc(-50%), 0);
@@ -93,5 +93,4 @@ html, body, #root, #main-container, .test-scene-container {
   .MuiCard-root{
     transform: translateX(-190px) translateY(-50%);
   }
-
 }
