@@ -1,7 +1,7 @@
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import FilterableTreeView from './FilterableTreeView';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CardActions,
   Input,
@@ -35,11 +35,16 @@ export const SideBar = (): JSX.Element => {
   const { selectedWound, selectWound, selectedWoundIdx, updateWound } =
     useWoundDocStore();
 
+
   const [selectedWoundType, setSelectedWoundType] = useState<
     string | undefined
   >(selectedWound?.woundType);
 
-  const [selectedWoundPictures, setSelectedWoundPictures] = useState<File[]>(selectedWound?.appendedPictures || []);
+  const [selectedWoundPictures, setSelectedWoundPictures] = useState<string[]>(selectedWound?.appendedPictures || []);
+
+  useEffect(() => {
+    setSelectedWoundPictures([]);
+  }, [selectedWound])
 
   const onSaveHandler = (): void => {
     selectedWound &&
@@ -49,7 +54,7 @@ export const SideBar = (): JSX.Element => {
           ...selectedWound,
           woundType: selectedWoundType,
           createDate: new Date(),
-          appendedPictures: [],
+          appendedPictures: selectedWoundPictures,
         },
         selectedWoundIdx
       );
@@ -101,7 +106,7 @@ export const SideBar = (): JSX.Element => {
           <DatePicker
             slotProps={{ textField: { size: 'small', fullWidth: true } }}
           />
-          <FileUploadMultiple woundPictures={selectedWoundPictures} setWoundPictures={setSelectedWoundPictures} />
+          <FileUploadMultiple woundPictures={selectedWoundPictures.length === 0 && selectedWound?.appendedPictures || selectedWoundPictures} setWoundPictures={setSelectedWoundPictures} />
         </CardContent>
         <CardActions>
           <Button variant="contained" onClick={onSaveHandler}>
