@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -20,6 +20,15 @@ const FileUploadMultiple = ({
   woundPictures: string[];
   setWoundPictures: (woundPictures: string[]) => void;
 }) => {
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files) {
+      loadFileAsData(e.target.files[0], (eve) => {
+        setWoundPictures([...woundPictures, (eve.target as any).result]);
+      });
+    }
+  };
+
   const handleFileChange = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (e.dataTransfer?.files) {
@@ -28,7 +37,7 @@ const FileUploadMultiple = ({
       });
     }
   };
-
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
     undefined
@@ -42,6 +51,10 @@ const FileUploadMultiple = ({
   const handleDragLeave = (e: any) => {
     e.preventDefault();
     setIsDragOver(false);
+  };
+
+  const handleCustomButtonClick = () => {
+    fileInputRef.current?.click();
   };
 
   const handleThumbnailClick = (wound: string | undefined) => {
@@ -70,6 +83,13 @@ const FileUploadMultiple = ({
         onDrop={(e) => handleFileChange(e)}
         className="file-upload"
       >
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleFileInputChange}
+          multiple
+        />
         {woundPictures.map((wound, idx) => (
           <div
             className="wound-picture"
@@ -81,7 +101,7 @@ const FileUploadMultiple = ({
             )}
           </div>
         ))}
-        <div className="wound-picture add">
+        <div onClick={handleCustomButtonClick} className="wound-picture add">
           <AddIcon fontSize="inherit"></AddIcon>
         </div>
       </div>
