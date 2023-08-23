@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { flushSync } from 'react-dom';
+import AddIcon from '@mui/icons-material/Add';
 
 const loadFileAsData = (file: File, afterLoading: (e: Event) => void) => {
   if (!file) return;
@@ -76,15 +77,13 @@ const FileUploadMultiple = ({
             key={idx}
           >
             {!selectedImage && (
-              <img
-                src={wound}
-                key={'w' + idx}
-                width={'100px'}
-                className="wound-image"
-              />
+              <img src={wound} key={'w' + idx} className="wound-image" />
             )}
           </div>
         ))}
+        <div className="wound-picture add">
+          <AddIcon fontSize="inherit"></AddIcon>
+        </div>
       </div>
     </>
   );

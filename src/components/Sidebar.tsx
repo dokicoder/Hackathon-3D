@@ -111,6 +111,9 @@ export const SideBar = (): JSX.Element => {
           <DatePicker
             slotProps={{ textField: { size: 'small', fullWidth: true } }}
           />
+          <Typography marginTop="16px" marginBottom="8px">
+            Wundbilder
+          </Typography>
           <FileUploadMultiple
             woundPictures={
               !selectedWoundPictures?.length &&
