@@ -13,21 +13,13 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useWoundDocStore } from '../store';
+import { getLocationFromBodyPart } from '../utils';
 
 const CssTextField = styled(TextField)({
   '& .MuiInput-root:before': {
     borderBottomColor: 'transparent',
   },
 });
-
-const getLocationFromBodyPart = (bodyPart?: string) =>
-  ({
-    hand_left: 'Linke Hand',
-    hand_right: 'Rechte Hand',
-    foot_left: 'Linker Fuss',
-    foot_right: 'Rechter Fuss',
-    face_front: 'Gesicht',
-  }[bodyPart as string] || 'Unspezifiziert');
 
 export const SideBar = (): JSX.Element => {
   const { selectedWound, selectWound, updateWound } = useWoundDocStore();
@@ -70,7 +62,10 @@ export const SideBar = (): JSX.Element => {
             fullWidth
             id="filled-basic"
             variant="standard"
-            value={getLocationFromBodyPart(selectedWound?.bodyPart)}
+            value={getLocationFromBodyPart(
+              selectedWound?.bodyPart,
+              'Unspezifiziert'
+            )}
           />
 
           <Divider sx={{ marginTop: '16px', marginBottom: '16px' }} />

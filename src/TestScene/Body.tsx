@@ -81,6 +81,7 @@ export const Body = () => {
     addWound,
     setWoundHovered,
     selectWound,
+    setHoveredBodyPart,
   } = useWoundDocStore();
 
   return (
@@ -134,7 +135,6 @@ export const Body = () => {
         }}
         onPointerEnter={(e) => {
           e.stopPropagation();
-          console.log(e);
 
           if (hoverMaterialRef.current) {
             hoverMaterialRef.current.dispose();
@@ -148,6 +148,8 @@ export const Body = () => {
 
           coloredMaterial.setValues({ color: '#949292' });
 
+          setHoveredBodyPart(e.object.userData.name);
+
           (e.object as Mesh).material = coloredMaterial;
         }}
         onPointerLeave={(e) => {
@@ -159,6 +161,9 @@ export const Body = () => {
 
             (e.object as Mesh).material = hoverMaterialRef.current;
           }
+
+          setHoveredBodyPart(undefined);
+
           setClickRef(null);
         }}
       >

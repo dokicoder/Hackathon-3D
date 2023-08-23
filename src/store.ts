@@ -17,6 +17,7 @@ interface IApplicationState {
   hoveredWoundId: string | undefined;
   markerPreviewSize: number;
   showResizePreview: boolean;
+  hoveredBodyPart: string | undefined;
 }
 
 interface IApplicationInterface {
@@ -27,6 +28,7 @@ interface IApplicationInterface {
   setWoundHovered: (id: string | undefined) => void;
   setMarkerPreviewSize: (size: number) => void;
   setShowResizePreview: (showPreview: boolean) => void;
+  setHoveredBodyPart: (hoveredBodyPart: string | undefined) => void;
 }
 
 interface IComputedApplicationInterface {
@@ -40,6 +42,7 @@ export const useWoundStore = create<IApplicationState & IApplicationInterface>(
     markerPreviewSize: 50,
     selectedWoundId: undefined,
     hoveredWoundId: undefined,
+    hoveredBodyPart: undefined,
     showResizePreview: false,
     addWound: (wound) => {
       const id = uuidv4();
@@ -74,6 +77,11 @@ export const useWoundStore = create<IApplicationState & IApplicationInterface>(
     setShowResizePreview: (showResizePreview) => {
       return set(() => ({
         showResizePreview,
+      }));
+    },
+    setHoveredBodyPart: (hoveredBodyPart) => {
+      return set(() => ({
+        hoveredBodyPart,
       }));
     },
   })
