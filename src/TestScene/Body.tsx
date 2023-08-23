@@ -25,9 +25,10 @@ const calculateDistance = (start: Coordinates, end: Coordinates): number => {
   return Math.sqrt(deltaX ** 2 + deltaY ** 2);
 };
 
-const selectedWoundColor = '#1166ff';
-const hoveredWoundColor = '#66ff44';
-const defaultWoundColor = '#ff6644';
+const pointerColor = '#FDE66C';
+const selectedWoundColor = '#FF7A00';
+const hoveredWoundColor = '#FFB800';
+const defaultWoundColor = '#ffe100';
 
 const Sphere = ({ opacity, color, ...rest }: ISphereProps) => {
   return (
@@ -219,7 +220,11 @@ export const Body = () => {
         </group>
       </mesh>
       {previewPosition && showPreview && (
-        <Sphere position={previewPosition} color={'#ffaaaa'} opacity={0.5} />
+        <Sphere
+          position={previewPosition}
+          color={pointerColor}
+          opacity={0.65}
+        />
       )}
       {wounds.map((wound, idx) => (
         <>
