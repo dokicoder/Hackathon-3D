@@ -13,6 +13,8 @@ interface IApplicationState {
   wounds: IWoundState[];
   selectedWoundIdx: number | undefined;
   hoveredWoundIdx: number | undefined;
+  markerPreviewSize: number;
+  showResizePreview: boolean;
 }
 
 interface IApplicationInterface {
@@ -21,6 +23,8 @@ interface IApplicationInterface {
   removeWound: (idx: number) => void;
   selectWound: (idx: number | undefined) => void;
   setWoundHovered: (idx: number | undefined) => void;
+  setMarkerPreviewSize: (size: number) => void;
+  setShowResizePreview: (showPreview: boolean) => void;
 }
 
 interface IComputedApplicationInterface {
@@ -31,8 +35,10 @@ interface IComputedApplicationInterface {
 export const useWoundStore = create<IApplicationState & IApplicationInterface>(
   (set) => ({
     wounds: [],
+    markerPreviewSize: 50,
     selectedWoundIdx: undefined,
     hoveredWoundIdx: undefined,
+    showResizePreview: false,
     addWound: (wound) => set(({ wounds }) => ({ wounds: [...wounds, wound] })),
     updateWound: (newWound: IWoundState, udatedIdx: number) =>
       set(({ wounds }) => ({
@@ -53,6 +59,16 @@ export const useWoundStore = create<IApplicationState & IApplicationInterface>(
       set(() => ({
         hoveredWoundIdx: hoveredIdx,
       })),
+    setMarkerPreviewSize: (markerPreviewSize) => {
+      return set(() => ({
+        markerPreviewSize,
+      }));
+    },
+    setShowResizePreview: (showResizePreview) => {
+      return set(() => ({
+        showResizePreview,
+      }));
+    },
   })
 );
 

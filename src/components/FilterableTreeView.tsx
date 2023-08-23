@@ -75,8 +75,6 @@ const FilterableTreeView = ({
     d.children?.length != 0 ? d.children : d
   );
 
-  console.log('ci', { childItems, filteredData });
-
   if (childItems.length === 1) {
     onItemSelected(childItems[0]?.name);
   }
