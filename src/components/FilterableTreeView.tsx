@@ -69,10 +69,10 @@ const FilterableTreeView = ({
   const filteredData = filterNodes(data, filterText);
 
   const expanded =
-    filterText != '' ? filteredData.map((node) => node.id) : expandedItems;
+    filterText !== '' ? filteredData.map((node) => node.id) : expandedItems;
 
   const childItems = filteredData.flatMap((d) =>
-    d.children?.length != 0 ? d.children : d
+    d.children?.length !== 0 ? d.children : d
   );
 
   if (childItems.length === 1) {
@@ -86,7 +86,7 @@ const FilterableTreeView = ({
         nodeId={node.id}
         style={{
           backgroundColor:
-            selectedItem === node.name ? '#77a5f7' : 'transparent',
+            selectedItem === node.name ? '#E7F2FA' : 'transparent',
         }}
         onClick={() => {
           if (node.children?.length === 0) {
@@ -95,7 +95,7 @@ const FilterableTreeView = ({
             handleNodeExpandToggle(node.id);
           }
         }}
-        label={<div style={{ padding: '6px' }}>{node.name}</div>}
+        label={<div style={{ padding: '4px' }}>{node.name}</div>}
       >
         {node.children && node.children.length > 0 && renderTree(node.children)}
       </TreeItem>

@@ -1,13 +1,9 @@
 import { Card, CardContent } from '@mui/material';
-import { Wound } from '../AppContainer';
+import { useWoundDocStore } from '../store';
 
-export const WoundList = ({
-  woundList,
-  onSelectWound,
-}: {
-  woundList: Wound[];
-  onSelectWound: (wound: Wound) => void;
-}) => {
+export const WoundList = () => {
+  const { wounds, selectWound } = useWoundDocStore();
+
   return (
     <Card
       style={{
@@ -18,8 +14,8 @@ export const WoundList = ({
       }}
     >
       <CardContent>
-        {woundList.map((wound, idx) => (
-          <div key={idx} onClick={() => onSelectWound(wound)}>
+        {wounds.map((wound) => (
+          <div key={wound.woundType} onClick={() => selectWound(wound.id)}>
             {wound.woundType}
           </div>
         ))}

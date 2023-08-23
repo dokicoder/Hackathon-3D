@@ -1,31 +1,36 @@
 import { Vector3 } from 'three';
 import { create } from 'zustand';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface IWoundState {
+  id: string;
   position: Vector3;
   size: number;
   bodyPart: string;
   woundType?: string;
   createDate?: Date;
-  appendedPictures: Array<string>
+  new: boolean;
+  appendedPictures: Array<string>;
 }
 
 interface IApplicationState {
   wounds: IWoundState[];
-  selectedWoundIdx: number | undefined;
-  hoveredWoundIdx: number | undefined;
+  selectedWoundId: string | undefined;
+  hoveredWoundId: string | undefined;
   markerPreviewSize: number;
   showResizePreview: boolean;
+  hoveredBodyPart: string | undefined;
 }
 
 interface IApplicationInterface {
-  addWound: (wound: IWoundState) => void;
-  updateWound: (wound: IWoundState, idx: number) => void;
-  removeWound: (idx: number) => void;
-  selectWound: (idx: number | undefined) => void;
-  setWoundHovered: (idx: number | undefined) => void;
+  addWound: (wound: Omit<IWoundState, 'id' | 'new'>) => string;
+  updateWound: (wound: IWoundState) => void;
+  removeWound: (id: string) => void;
+  selectWound: (id: string | undefined) => void;
+  setWoundHovered: (id: string | undefined) => void;
   setMarkerPreviewSize: (size: number) => void;
   setShowResizePreview: (showPreview: boolean) => void;
+  setHoveredBodyPart: (hoveredBodyPart: string | undefined) => void;
 }
 
 interface IComputedApplicationInterface {
@@ -36,29 +41,35 @@ interface IComputedApplicationInterface {
 export const useWoundStore = create<IApplicationState & IApplicationInterface>(
   (set) => ({
     wounds: [],
-    markerPreviewSize: 50,
-    selectedWoundIdx: undefined,
-    hoveredWoundIdx: undefined,
+    markerPreviewSize: 25,
+    selectedWoundId: undefined,
+    hoveredWoundId: undefined,
+    hoveredBodyPart: undefined,
     showResizePreview: false,
-    addWound: (wound) => set(({ wounds }) => ({ wounds: [...wounds, wound] })),
-    updateWound: (newWound: IWoundState, udatedIdx: number) =>
+    addWound: (wound) => {
+      const id = uuidv4();
       set(({ wounds }) => ({
-        wounds: wounds.map((wound, idx) =>
-          idx === udatedIdx ? newWound : wound
+        wounds: [...wounds, { ...wound, id, new: true }],
+      }));
+      return id;
+    },
+    updateWound: (newWound: IWoundState) =>
+      set(({ wounds }) => ({
+        wounds: wounds.map((wound) =>
+          wound.id === newWound.id ? { ...newWound, new: false } : wound
         ),
       })),
-    removeWound: (deleteIdx) =>
+    removeWound: (deleteId) =>
       set(({ wounds }) => ({
-        wounds: wounds.filter((_, idx) => idx !== deleteIdx),
+        wounds: wounds.filter(({ id }) => id !== deleteId),
       })),
-    selectWound: (selectIdx) =>
-      set(({ selectedWoundIdx }) => ({
-        selectedWoundIdx:
-          selectedWoundIdx === selectIdx ? undefined : selectIdx,
+    selectWound: (selectId) =>
+      set(({ selectedWoundId }) => ({
+        selectedWoundId: selectedWoundId === selectId ? undefined : selectId,
       })),
-    setWoundHovered: (hoveredIdx) =>
+    setWoundHovered: (hoveredId) =>
       set(() => ({
-        hoveredWoundIdx: hoveredIdx,
+        hoveredWoundId: hoveredId,
       })),
     setMarkerPreviewSize: (markerPreviewSize) => {
       return set(() => ({
@@ -68,6 +79,11 @@ export const useWoundStore = create<IApplicationState & IApplicationInterface>(
     setShowResizePreview: (showResizePreview) => {
       return set(() => ({
         showResizePreview,
+      }));
+    },
+    setHoveredBodyPart: (hoveredBodyPart) => {
+      return set(() => ({
+        hoveredBodyPart,
       }));
     },
   })
@@ -80,7 +96,7 @@ export const useWoundDocStore = (): IApplicationState &
 
   return {
     ...store,
-    hoveredWound: store.wounds[store.hoveredWoundIdx!],
-    selectedWound: store.wounds[store.selectedWoundIdx!],
+    hoveredWound: store.wounds.find(({ id }) => id === store.hoveredWoundId),
+    selectedWound: store.wounds.find(({ id }) => id === store.selectedWoundId),
   };
 };

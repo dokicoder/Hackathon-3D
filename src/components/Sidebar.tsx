@@ -14,6 +14,7 @@ import Divider from '@mui/material/Divider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useWoundDocStore } from '../store';
 import FileUploadMultiple from './FileUpload';
+import { getLocationFromBodyPart } from '../utils';
 
 const CssTextField = styled(TextField)({
   '& .MuiInput-root:before': {
@@ -21,18 +22,8 @@ const CssTextField = styled(TextField)({
   },
 });
 
-const getLocationFromBodyPart = (bodyPart?: string) =>
-  ({
-    hand_left: 'Linke Hand',
-    hand_right: 'Rechte Hand',
-    foot_left: 'Linker Fuss',
-    foot_right: 'Rechter Fuss',
-    face_front: 'Gesicht',
-  }[bodyPart as string] || 'Unspezifiziert');
-
 export const SideBar = (): JSX.Element => {
-  const { selectedWound, selectWound, selectedWoundIdx, updateWound } =
-    useWoundDocStore();
+  const { selectedWound, selectWound, updateWound } = useWoundDocStore();
 
   const [selectedWoundType, setSelectedWoundType] = useState<
     string | undefined
@@ -55,16 +46,13 @@ export const SideBar = (): JSX.Element => {
     });
 
     selectedWound &&
-      selectedWoundIdx !== undefined &&
-      updateWound(
-        {
-          ...selectedWound,
-          woundType: selectedWoundType,
-          createDate: new Date(),
-          appendedPictures: [...selectedWoundPictures],
-        },
-        selectedWoundIdx
-      );
+      updateWound({
+        ...selectedWound,
+        woundType: selectedWoundType,
+        createDate: selectedWound.createDate ?? new Date(),
+        appendedPictures: [...selectedWoundPictures],
+      });
+
     selectWound(undefined);
   };
 
@@ -97,7 +85,10 @@ export const SideBar = (): JSX.Element => {
             fullWidth
             id="filled-basic"
             variant="standard"
-            value={getLocationFromBodyPart(selectedWound?.bodyPart)}
+            value={getLocationFromBodyPart(
+              selectedWound?.bodyPart,
+              'Unspezifiziert'
+            )}
           />
 
           <Divider sx={{ marginTop: '16px', marginBottom: '16px' }} />
