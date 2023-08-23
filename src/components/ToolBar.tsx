@@ -8,8 +8,8 @@ import { Fade, Typography } from '@mui/material';
 export const ToolBar = (): JSX.Element => {
   const {
     markerPreviewSize,
-    setMarkerPreviewSize,
     selectedWound,
+    setMarkerPreviewSize,
     setShowResizePreview,
   } = useWoundDocStore();
 

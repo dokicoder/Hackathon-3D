@@ -12,7 +12,6 @@ html, body, #root, #main-container, .test-scene-container {
   overflow-x: hidden;
 }
 
-
 #main-container {
   margin: auto;
   display: flex;
@@ -21,6 +20,7 @@ html, body, #root, #main-container, .test-scene-container {
 
   .test-scene-container{
     width: calc(100% - 400px);
+    position: relative;
   }
 
   h1, h2 {
@@ -49,4 +49,20 @@ html, body, #root, #main-container, .test-scene-container {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #999;
+}
+
+
+.body-part-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  padding-top: 0;
+  font-weight: bold;
+  background-color: white;
+  text-align: center;
+  min-height: 40px;
+  vertical-align: center;
+
 }

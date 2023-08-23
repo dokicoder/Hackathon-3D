@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useWoundDocStore } from './store';
 import { WoundList } from './components/WoundList';
 import { ToolBar } from './components/ToolBar';
+import { BottomBar } from './components/BottomBar';
 
 export type Wound = {
   woundType: string;
@@ -27,9 +28,12 @@ export const AppContainer = (): JSX.Element => {
   return (
     <div id="main-container">
       <WoundList woundList={wounds} onSelectWound={selectWound as any} />
-      <TestScene />
+      <div className="test-scene-container">
+        <TestScene />
+        <ToolBar />
+        <BottomBar />
+      </div>
       <SideBar key={selectedWound?.woundType} />
-      <ToolBar />
     </div>
   );
 };
