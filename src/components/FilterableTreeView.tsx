@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import TreeView from "@mui/lab/TreeView";
-import TreeItem from "@mui/lab/TreeItem";
-import { TextField } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import wondTypes from "../assets/wound_types.json?raw";
+import React, { useState } from 'react';
+import TreeView from '@mui/lab/TreeView';
+import TreeItem from '@mui/lab/TreeItem';
+import { TextField } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import wondTypes from '../assets/wound_types.json?raw';
 
 interface TreeNode {
   id: string;
@@ -21,7 +21,7 @@ const FilterableTreeView = ({
   onItemSelected: (item: string | undefined) => void;
   selectedItem: string | undefined;
 }): JSX.Element => {
-  const [filterText, setFilterText] = useState<string>("");
+  const [filterText, setFilterText] = useState<string>('');
 
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
@@ -34,7 +34,9 @@ const FilterableTreeView = ({
       setExpandedItems((prev) => [...prev, item]);
     } else {
       setExpandedItems((prev) => {
-        return prev.splice(prev.indexOf(item), 1);
+        const newItems = [...prev];
+        newItems.splice(newItems.indexOf(item), 1);
+        return newItems;
       });
     }
   };
@@ -43,9 +45,16 @@ const FilterableTreeView = ({
     return nodes
       .map((node) => {
         const filteredChildren = filterNodes(node.children || [], query);
+
+        const regexPattern = /[^a-zA-Z0-9]/g;
+        const filteredString = node.name
+          .replace(regexPattern, '')
+          .toLowerCase();
+        const filteredQuery = query.replace(regexPattern, '').toLowerCase();
+
         if (
           filteredChildren.length > 0 ||
-          node.name.toLowerCase().includes(query.toLowerCase())
+          filteredString.includes(filteredQuery)
         ) {
           return {
             ...node,
@@ -60,13 +69,13 @@ const FilterableTreeView = ({
   const filteredData = filterNodes(data, filterText);
 
   const expanded =
-    filterText != "" ? filteredData.map((node) => node.id) : expandedItems;
+    filterText != '' ? filteredData.map((node) => node.id) : expandedItems;
 
   const childItems = filteredData.flatMap((d) =>
     d.children?.length != 0 ? d.children : d
   );
 
-  console.log("ci", { childItems, filteredData });
+  console.log('ci', { childItems, filteredData });
 
   if (childItems.length === 1) {
     onItemSelected(childItems[0]?.name);
@@ -78,7 +87,8 @@ const FilterableTreeView = ({
         key={node.id}
         nodeId={node.id}
         style={{
-          backgroundColor: selectedItem === node.name ? "#0FF" : "transparent",
+          backgroundColor:
+            selectedItem === node.name ? '#77a5f7' : 'transparent',
         }}
         onClick={() => {
           if (node.children?.length === 0) {
@@ -87,7 +97,7 @@ const FilterableTreeView = ({
             handleNodeExpandToggle(node.id);
           }
         }}
-        label={<div style={{ padding: "6px" }}>{node.name}</div>}
+        label={<div style={{ padding: '6px' }}>{node.name}</div>}
       >
         {node.children && node.children.length > 0 && renderTree(node.children)}
       </TreeItem>
@@ -101,11 +111,11 @@ const FilterableTreeView = ({
         variant="outlined"
         fullWidth
         value={filterText}
-        sx={{ marginBottom: "16px" }}
+        sx={{ marginBottom: '16px' }}
         onChange={handleFilterChange}
       />
       <TreeView
-        sx={{ height: "300px", overflowY: "scroll", overflowX: "hidden" }}
+        sx={{ height: '300px', overflowY: 'scroll', overflowX: 'hidden' }}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
         expanded={expanded}
