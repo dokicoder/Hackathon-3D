@@ -9,6 +9,7 @@ body {
 
 html, body, #root, #main-container, .test-scene-container {
   height: 100%;
+  overflow-x: hidden;
 }
 
 

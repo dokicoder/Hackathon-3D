@@ -27,8 +27,7 @@ export const AppContainer = (): JSX.Element => {
     <div id="main-container">
       <WoundList woundList={wounds} onSelectWound={selectWound as any} />
       <TestScene />
-
-      {selectedWound && <SideBar key={selectedWound.woundType} />}
+      <SideBar key={selectedWound?.woundType} />
     </div>
   );
 };
