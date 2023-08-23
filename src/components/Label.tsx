@@ -3,6 +3,7 @@ import { IWoundState, useWoundDocStore } from '../store';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Html } from '@react-three/drei';
+import imageIcon from '../assets/image-icon.png';
 import { getLocationFromBodyPart } from '../utils';
 
 export const Label = ({ wound }: { wound: IWoundState }) => {
@@ -30,6 +31,9 @@ export const Label = ({ wound }: { wound: IWoundState }) => {
             <Typography variant="caption">
               {getLocationFromBodyPart(wound.bodyPart)}
             </Typography>
+            {!!wound.appendedPictures?.length && (
+              <img className="icon-image" src={imageIcon} />
+            )}
           </CardContent>
         </Card>
       </div>

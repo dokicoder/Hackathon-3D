@@ -109,3 +109,8 @@ html, body, #root, #main-container, .test-scene-container {
   overflow-x: hidden;
   margin-top: 16px;
 }
+
+.icon-image {
+  width: 20px;
+  display: block;
+}
