@@ -1,7 +1,7 @@
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import FilterableTreeView from './FilterableTreeView';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CardActions,
   Slide,
@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useWoundDocStore } from '../store';
+import FileUploadMultiple from './FileUpload';
 import { getLocationFromBodyPart } from '../utils';
 
 const CssTextField = styled(TextField)({
@@ -28,15 +29,37 @@ export const SideBar = (): JSX.Element => {
     string | undefined
   >(selectedWound?.woundType);
 
+  const [selectedWoundPictures, setSelectedWoundPictures] = useState<string[]>(
+    selectedWound?.appendedPictures || []
+  );
+
+  useEffect(() => {
+    setSelectedWoundPictures([]);
+  }, [selectedWound]);
+
   const onSaveHandler = (): void => {
+    console.log({
+      ...selectedWound,
+      woundType: selectedWoundType,
+      createDate: new Date(),
+      appendedPictures: [...selectedWoundPictures],
+    });
+
     selectedWound &&
       updateWound({
         ...selectedWound,
         woundType: selectedWoundType,
         createDate: selectedWound.createDate ?? new Date(),
+        appendedPictures: [...selectedWoundPictures],
       });
+
     selectWound(undefined);
   };
+
+  console.log({
+    selectedWoundPictures,
+    appendedPictures: selectedWound?.appendedPictures,
+  });
 
   const onAbortHandler = (): void => {
     selectWound(undefined);
@@ -68,7 +91,7 @@ export const SideBar = (): JSX.Element => {
             )}
           />
 
-          <Divider sx={{ marginTop: '16px', marginBottom: '16px' }} />
+          <Divider sx={{ marginTop: '12px', marginBottom: '12px' }} />
           <Typography fontSize="1.5em" marginTop="8px" marginBottom="8px">
             Wundtyp
           </Typography>
@@ -78,7 +101,7 @@ export const SideBar = (): JSX.Element => {
           />
           {selectedWoundType && (
             <p>
-              Ausgewählter Wundtype:{' '}
+              Ausgewählter Wundtyp:{' '}
               <span style={{ fontWeight: 'bold' }}>{selectedWoundType}</span>
             </p>
           )}
@@ -88,11 +111,15 @@ export const SideBar = (): JSX.Element => {
           <DatePicker
             slotProps={{ textField: { size: 'small', fullWidth: true } }}
           />
-
-          <Typography marginTop="16px" marginBottom="8px">
-            Bemerkung
-          </Typography>
-          <TextField multiline fullWidth />
+          <FileUploadMultiple
+            woundPictures={
+              !selectedWoundPictures?.length &&
+              selectedWound?.appendedPictures.length
+                ? selectedWound.appendedPictures
+                : selectedWoundPictures
+            }
+            setWoundPictures={setSelectedWoundPictures}
+          />
         </CardContent>
         <CardActions>
           <Button variant="contained" onClick={onSaveHandler}>

@@ -96,8 +96,6 @@ export const Body = () => {
           setPreviewPosition(undefined);
         }}
         onPointerMove={(e) => {
-          console.log(e);
-
           e.stopPropagation();
           setPreviewPosition(e.point);
         }}
@@ -128,6 +126,7 @@ export const Body = () => {
                 position: previewPosition,
                 bodyPart: e.object.userData.name || 'body',
                 size: markerPreviewSize,
+                appendedPictures: [],
               });
               selectWound(id);
             }
@@ -243,7 +242,7 @@ export const Body = () => {
             receiveShadow
             geometry={nodes.EyeGlass_low_EyeGlass_low_0.geometry}
             material={materials.EyeGlass_low}
-            userData={{ name: 'body' }}
+            userData={{ name: 'eyes' }}
           />
           <mesh
             castShadow
@@ -272,8 +271,9 @@ export const Body = () => {
       )}
 
       {wounds.map((wound, idx) => (
-        <>
+        <group key={idx}>
           <Sphere
+            key={idx}
             position={wound.position}
             color={
               wound.id === selectedWound?.id
@@ -284,7 +284,6 @@ export const Body = () => {
             }
             radius={transformMarkerSize(wound.size)}
             opacity={0.8}
-            key={idx}
             onPointerMove={(e) => {
               e.stopPropagation();
               setWoundHovered(wound.id);
@@ -302,7 +301,7 @@ export const Body = () => {
             }}
           />
           <Label wound={wound} />
-        </>
+        </group>
       ))}
     </group>
   );

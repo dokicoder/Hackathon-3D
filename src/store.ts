@@ -10,6 +10,7 @@ export interface IWoundState {
   woundType?: string;
   createDate?: Date;
   new: boolean;
+  appendedPictures: Array<string>;
 }
 
 interface IApplicationState {
@@ -22,7 +23,7 @@ interface IApplicationState {
 }
 
 interface IApplicationInterface {
-  addWound: (wound: Omit<IWoundState,'id'| 'new'>) => string;
+  addWound: (wound: Omit<IWoundState, 'id' | 'new'>) => string;
   updateWound: (wound: IWoundState) => void;
   removeWound: (id: string) => void;
   selectWound: (id: string | undefined) => void;
@@ -47,24 +48,24 @@ export const useWoundStore = create<IApplicationState & IApplicationInterface>(
     showResizePreview: false,
     addWound: (wound) => {
       const id = uuidv4();
-      set(({ wounds }) => ({ wounds: [...wounds, {...wound, id, new: true }] }));
+      set(({ wounds }) => ({
+        wounds: [...wounds, { ...wound, id, new: true }],
+      }));
       return id;
-
-   },
+    },
     updateWound: (newWound: IWoundState) =>
       set(({ wounds }) => ({
         wounds: wounds.map((wound) =>
-        wound.id === newWound.id ? {...newWound, new: false} : wound
+          wound.id === newWound.id ? { ...newWound, new: false } : wound
         ),
       })),
     removeWound: (deleteId) =>
       set(({ wounds }) => ({
-        wounds: wounds.filter(({id}) => id !== deleteId),
+        wounds: wounds.filter(({ id }) => id !== deleteId),
       })),
     selectWound: (selectId) =>
       set(({ selectedWoundId }) => ({
-        selectedWoundId:
-        selectedWoundId === selectId ? undefined : selectId,
+        selectedWoundId: selectedWoundId === selectId ? undefined : selectId,
       })),
     setWoundHovered: (hoveredId) =>
       set(() => ({
@@ -95,7 +96,7 @@ export const useWoundDocStore = (): IApplicationState &
 
   return {
     ...store,
-    hoveredWound: store.wounds.find(({id}) => id === store.hoveredWoundId),
-    selectedWound: store.wounds.find(({id}) => id === store.selectedWoundId),
+    hoveredWound: store.wounds.find(({ id }) => id === store.hoveredWoundId),
+    selectedWound: store.wounds.find(({ id }) => id === store.selectedWoundId),
   };
 };

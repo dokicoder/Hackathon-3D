@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@mui/material';
 import { useWoundDocStore } from '../store';
+
 export const WoundList = () => {
   const { wounds, selectWound } = useWoundDocStore();
 
