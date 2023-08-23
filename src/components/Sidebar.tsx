@@ -14,8 +14,6 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useWoundDocStore } from '../store';
-import InputFileUpload from './FileUpload';
-import { FileUpload } from '@mui/icons-material';
 import FileUploadMultiple from './FileUpload';
 
 const CssTextField = styled(TextField)({

@@ -3,7 +3,6 @@ import { ChangeEvent, useState } from 'react';
 import { IWoundState } from '../store';
 
 const FileUploadMultiple = ({ woundPictures, setWoundPictures }: { woundPictures: File[], setWoundPictures: any }) => {
-    // const [fileList, setFileList] = useState<File[] | null>(woundPictures);
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const newFiles = woundPictures ? Array.from(woundPictures) : [];
@@ -16,9 +15,6 @@ const FileUploadMultiple = ({ woundPictures, setWoundPictures }: { woundPictures
 
     };
 
-    // 👇 files is not an array, but it's iterable, spread to get an array of files
-    // const files = fileList ? [...fileList] : [];
-    // console.log('LI', fileList)
     return (
         <div>
             <input type="file" onChange={handleFileChange} multiple />
