@@ -114,6 +114,7 @@ export const Body = () => {
                 {
                   ...selectedWound,
                   position: previewPosition,
+                  bodyPart: e.object.userData.name || 'body',
                 },
                 selectedWoundIdx
               );

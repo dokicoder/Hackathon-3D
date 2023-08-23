@@ -2,7 +2,13 @@ import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import FilterableTreeView from './FilterableTreeView';
 import { useState } from 'react';
-import { Slide, TextField, Typography, styled } from '@mui/material';
+import {
+  CardActions,
+  Slide,
+  TextField,
+  Typography,
+  styled,
+} from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -47,7 +53,15 @@ export const SideBar = (): JSX.Element => {
 
   return (
     <Slide in={!!selectedWound} direction="left">
-      <Card sx={{ width: 400 }}>
+      <Card
+        sx={{
+          width: 400,
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          height: '100vh',
+        }}
+      >
         <CardContent>
           <Typography fontSize="1.5em" marginTop="8px" marginBottom="8px">
             Körperlokation
@@ -74,11 +88,16 @@ export const SideBar = (): JSX.Element => {
           <Typography marginTop="8px" marginBottom="8px">
             Zeitpunkt des ersten Auftritts der Wunde
           </Typography>
-          <DatePicker />
-          <div>
-            <Button onClick={() => onSaveHandler()}>Speichern</Button>
-          </div>
+          <DatePicker
+            slotProps={{ textField: { size: 'small', fullWidth: true } }}
+          />
         </CardContent>
+        <CardActions>
+          <Button variant="contained" onClick={() => onSaveHandler()}>
+            Speichern
+          </Button>
+          <Button onClick={() => onSaveHandler()}>Abbrechen</Button>
+        </CardActions>
       </Card>
     </Slide>
   );

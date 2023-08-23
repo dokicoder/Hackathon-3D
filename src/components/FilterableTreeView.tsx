@@ -116,7 +116,7 @@ const FilterableTreeView = ({
         onChange={handleFilterChange}
       />
       <TreeView
-        sx={{ height: '300px', overflowY: 'scroll', overflowX: 'hidden' }}
+        sx={{ height: '250px', overflowY: 'scroll', overflowX: 'hidden' }}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
         expanded={expanded}
